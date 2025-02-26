@@ -1,0 +1,78 @@
+<h2>
+    Update Your Profile
+  </h2>
+  
+<perch:form id="profile" method="post" app="perch_members">
+  
+  
+	<div>
+		<perch:label for="first_name">First name</perch:label>
+		<perch:input type="text" id="first_name" required="true" label="First name" />
+		<perch:error for="first_name" type="required">Please add your name</perch:error>
+	</div>
+
+	<div>
+		<perch:label for="last_name">Last name</perch:label>
+		<perch:input type="text" id="last_name" required="true" label="Last name" />
+		<perch:error for="last_name" type="required">Please add your name</perch:error>
+	</div>
+
+	<div>
+		<perch:label for="email">Email</perch:label>
+		<perch:input type="email" id="email" required="true" placeholder="you@company.com" />
+		<perch:error for="email" type="required">Please add your email address</perch:error>
+		<perch:error for="email" type="format">Please check your email address</perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="mobile">Mobile</perch:label>
+		<perch:input type="text" id="mobile" required="true" label="Mobile" />
+		<perch:error for="address_1" type="required">Please add a mobile number</perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="alt_mobile">Alternate Mobile or Landline</perch:label>
+		<perch:input type="text" id="alt_mobile" required="true" label="Alternate Mobile or Landline" />
+		<perch:error for="address_1">Please add a mobile number</perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="address_1">Address 1</perch:label>
+		<perch:input type="text" id="address_1" required="true" label="Address 1" />
+		<perch:error for="address_1" type="required">Please add your address</perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="address_2">Address 2</perch:label>
+		<perch:input type="text" id="address_2" required="true" label="Address 2" />
+		<perch:error for="address_2" type="required">Please add your address</perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="address_3">Address 3</perch:label>
+		<perch:input type="text" id="address_3" label="Address 3" />
+		<perch:error for="address_3" type="required">Please add your address</perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="post_code">Post Code</perch:label>
+		<perch:input type="text" id="post_code" required="true" label="Post Code" />
+		<perch:error for="post_code" type="required">Please add your post code</perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="country">Country</perch:label>
+		<perch:input type="text" id="country" required="true" label="Country" />
+		<perch:error for="country" type="required">Please add your country</perch:error>
+	</div>
+
+	<div>
+		<perch:input type="submit" value="Save Details" />
+		<perch:input type="hidden" id="token" />
+	</div>
+
+	<perch:success>
+		<p class="success">Your details have been updated.</p>
+	</perch:success>
+
+</perch:form>

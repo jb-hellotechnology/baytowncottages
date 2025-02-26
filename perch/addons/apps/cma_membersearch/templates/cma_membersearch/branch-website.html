@@ -1,0 +1,24 @@
+<perch:if exists="branchContactName">
+	<p><strong>Contact Name:</strong> <perch:cma type="text" id="branchContactName" required="true" /></p>
+</perch:if>
+<ul>
+	<perch:if exists="branchContactTelephone">
+		<li><perch:cma type="text" id="branchContactTelephone" /></li>
+	</perch:if>
+	<perch:if exists="branchContactEmail">
+		<li><a href="<perch:cma type="text" id="branchContactEmail" />"><perch:cma type="text" id="branchContactEmail" /></a></li>
+	</perch:if>
+	<perch:if exists="branchContactFacebook">
+		<li><a href="<perch:cma type="text" id="branchContactFacebook" />" target="_blank"><perch:cma type="text" id="branchContactFacebook" /></a></li>
+	</perch:if>
+	<perch:if exists="branchContactTwitter">
+		<li><a href="<perch:cma type="text" id="branchContactTwitter" />" target="_blank"><perch:cma type="text" id="branchContactTwitter" /></a></li>
+	</perch:if>
+	<perch:if exists="branchContactInstagram">
+		<li><a href="<perch:cma type="text" id="branchContactInstagram" />" target="_blank"><perch:cma type="text" id="branchContactInstagram" /></a></li>
+	</perch:if>
+</ul>
+
+<perch:if exists="branchContactNotes">
+	<p><perch:cma type="text" id="branchContactNotes" label="Notes" /></p>
+</perch:if>

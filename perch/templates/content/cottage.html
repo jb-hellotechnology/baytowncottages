@@ -1,0 +1,202 @@
+<!-- <p><a class="more-cottages" href="/our-cottages">&larr; View More Cottages</a></p> -->
+<h1 class="property-name"><perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" /></h1>
+<!-- <a class="button right" href="#book">Book Online Today!</a> -->
+<perch:if exists="discount">
+	<p class="discount-label"><perch:content id="discount" /></p>
+</perch:if>
+<div class="row cottage-top">
+	<div class="cottage-gallery">
+		<div class="f-carousel" id="myCarousel">
+			<div class="f-carousel__slide" data-fancybox="gallery">
+				<img data-lazy-src="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />" alt="Robin Hoods Bay Holiday Cottage" />
+			</div>
+			<perch:repeater id="gallery">
+				<div class="f-carousel__slide" data-fancybox="gallery">
+					<img src="<perch:content id="image2" type="image" label="Image 2" width="680" />" alt="Robin Hoods Bay Holiday Cottage" />
+				</div>
+			</perch:repeater>
+		</div>
+	</div>
+	<div>
+		<h2>Key Information</h2>
+		<ul class="facilities">
+			<perch:if exists="cottageSleeps">
+				<li class="sleeps">Sleeps <perch:content id="cottageSleeps" type="select" label="Sleeps" options="2,2+1,3,3+1,4,4+1,4+2,4+3,5,5+1,6,6+1,6+2,7,7+1,8,8+1,9,9+1,10,10+1" required="true" /></li>
+			</perch:if>
+			<perch:if exists="cottageLocation">
+				<li class="location"><perch:content id="cottageLocation" type="select" label="Location" options="Lower Bay, Upper Bay, Fylingthorpe, Whitby Area" allowempty="false" required="true" /></li>
+			</perch:if>
+			<perch:if exists="wifi">
+				<li class="wifi"><perch:content id="wifi" type="checkbox" label="WiFi" value="WiFi" /></li>
+			</perch:if>
+			<perch:if exists="petfriendly">
+				<li class="pets"><perch:content id="petfriendly" type="checkbox" label="Pet Friendly" value="Pet Friendly" /></li>
+			</perch:if>
+			<perch:if exists="parkingpermit-fisherhead">
+				<li class="parking"><perch:content id="parkingpermit-fisherhead" type="checkbox" label="Parking Permit - Fisherhead Car Park" value="Parking Permit - Fisherhead Car Park" /></li>
+			</perch:if>
+			<perch:if exists="parkingpermit-council">
+				<li class="parking"><perch:content id="parkingpermit-council" type="checkbox" label="Parking Permit - Council Car Parks in Top Village" value="Parking Permit - Council Car Parks in Top Village" /></li>
+			</perch:if>
+			<perch:if exists="parkingpermit-private">
+				<li class="parking"><perch:content id="parkingpermit-private" type="checkbox" label="Parking Permit - Private Parking" value="Parking Permit - Private Parking" /></li>
+			</perch:if>
+			<perch:if exists="parking-onstreet">
+				<li class="parking"><perch:content id="parking-onstreet" type="checkbox" label="Parking - On Street Parking" value="Parking - On Street Parking" /></li>
+			</perch:if>
+		</ul>
+		<h2>Book Online</h2>
+		<div class="monthly-calendar" id="book"></div>
+		<script type="text/javascript">
+			function arrival(pCottage){
+				$( ".enquiry-form" ).load( '/perch/templates/calendar/enquiryform.php?cottage='+pCottage);
+			}
+		</script>
+	</div>
+</div>
+<div class="row cottage-main">	
+	<div class="column flow">
+		<h2>Booking Details</h2>
+		<perch:content id="cottageAvailability" type="textarea" label="Availability Notice" html="true" editor="redactor" />
+	</div>
+	<div class="column two-thirds flow">
+		<h2>Property Details</h2>
+		<p><strong><em><perch:content id="cottageKeyText" type="text" label="Key Text" /></em></strong></p>
+		<perch:content id="cottageShortDescription" type="textarea" label="Short Description" html="true" editor="redactor" />
+	</div>
+</div>
+<div class="row">
+	<div class="column full">
+		<h2>More Information</h2>
+		<div class="tabs">
+			<ul class="tab-control">
+				<li class="active"><a href="#about" title="about">About</a></li>
+				<li><a href="#amenities" title="amenities">Amenities</a></li>
+				<li><a href="#availability" title="availability">Availability</a></li>
+				<li><a href="#pricing" title="pricing">Pricing</a></li>
+				<li class="enquiry"><a href="#enquiry" title="enquiry">Enquiry</a></li>
+				<perch:if id="displayLocation" value="hide">
+				
+				<perch:else />
+					<li><a href="#location" title="location">Location</a></li>
+				</perch:if>
+			</ul>
+			<div class="tab about flow">
+				<h3>Property Description</h3>
+				<perch:content id="cottageDescription" type="textarea" label="Full Description" html="true" editor="redactor" />
+			</div>
+			<div class="tab amenities flow">
+				<h3>Property Amenities</h3>
+				<div class="am-wrapper">
+				<!--<ul>
+					<perch:if exists="cottageLocation">
+						<li><perch:content id="cottageLocation" type="select" label="Location" options="Lower Robin Hood's Bay, Upper Robin Hood's Bay, Whitby Area" allowempty="false" required="true" /></li>
+					</perch:if>
+					<perch:if exists="wifi">
+						<li><perch:content id="wifi" type="checkbox" label="WiFi" value="WiFi" /></li>
+					</perch:if>
+					<perch:if exists="petfriendly">
+						<li><perch:content id="petfriendly" type="checkbox" label="Pet Friendly" value="Pet Friendly" /></li>
+					</perch:if>
+					<perch:if exists="centralheating">
+						<li><perch:content id="centralheating" type="checkbox" label="Central Heating" value="Central Heating" /></li>
+					</perch:if>
+					<perch:if exists="linenprovided">
+						<li><perch:content id="linenprovided" type="checkbox" label="Linen Provided" value="Linen Provided" /></li>
+					</perch:if>
+					<perch:if exists="tv">
+						<li><perch:content id="tv" type="checkbox" label="TV" value="TV" /></li>
+					</perch:if>
+					<perch:if exists="travelcot">
+						<li><perch:content id="travelcot" type="checkbox" label="Travel Cot Available" value="Travel Cot Available" /></li>
+					</perch:if>
+					<perch:if exists="highchair">
+						<li><perch:content id="highchair" type="checkbox" label="Highchair Available" value="Highchair Available" /></li>
+					</perch:if>
+					<perch:if exists="washingmachine">
+						<li><perch:content id="washingmachine" type="checkbox" label="Washing Machine" value="Washing Machine" /></li>
+					</perch:if>
+					<perch:if exists="woodburner">
+						<li><perch:content id="woodburner" type="checkbox" label="Woodburner" value="Woodburner" /></li>
+					</perch:if>
+					<perch:if exists="openfire">
+						<li><perch:content id="openfire" type="checkbox" label="Open Fire" value="Open Fire" /></li>
+					</perch:if>
+					<perch:if exists="outsidespace">
+						<li><perch:content id="outsidespace" type="checkbox" label="Outside Space" value="Outside Space" /></li>
+					</perch:if>
+					<perch:if exists="parkingpermit">
+						<li><perch:content id="parkingpermit" type="checkbox" label="Parking Permit" value="Parking Permit" /></li>
+					</perch:if>
+					<perch:if exists="parkingpermit-fisherhead">
+						<li><perch:content id="parkingpermit-fisherhead" type="checkbox" label="Parking Permit - Fisherhead Car Park" value="Parking Permit - Fisherhead Car Park" /></li>
+					</perch:if>
+					<perch:if exists="parkingpermit-council">
+						<li><perch:content id="parkingpermit-council" type="checkbox" label="Parking Permit - Council Car Parks in Top Village" value="Parking Permit - Council Car Parks in Top Village" /></li>
+					</perch:if>
+					<perch:if exists="parkingpermit-private">
+						<li><perch:content id="parkingpermit-private" type="checkbox" label="Parking Permit - Private Parking" value="Parking Permit - Private Parking" /></li>
+					</perch:if>
+				</ul> -->
+				<ul class="amenities">
+				<perch:repeater id="amenities" title="Amenities" label="Amenities">
+					<perch:if exists="type">
+					</ul><ul class="amenities">
+					</perch:if>
+					<li class="<perch:content id="type" label="Title Item" type="checkbox" value="title" />"><perch:content id="text" type="facility" label="Text" required="true" title="true" /></li>
+				</perch:repeater>
+				</ul>
+				</div>
+			</div>
+			<div class="tab availability flow">
+				<h3>Property Availability</h3>
+				<div class="yearly-calendar"></div>
+				<script type="text/javascript">
+				$(document).ready(function(){
+					$( ".yearly-calendar" ).load( '/perch/templates/simple_calendar/yearly-calendar.php?unit=<perch:content id="slug" type="slug" for="cottageName" supress="true" />' );
+				});
+				</script>
+			</div>
+			<div class="tab pricing flow">
+				<h3>Property Pricing</h3>
+				<perch:content id="cottagePricingText" type="textarea" label="Property Pricing Text" html="true" editor="redactor" />
+				<div class="property-pricing"></div>
+				<script type="text/javascript">
+				$(document).ready(function(){
+					$( ".property-pricing" ).load( '/perch/templates/calendar/property-pricing.php?id=<perch:content id="slug" type="slug" for="cottageName" supress="true" />&price2=<perch:content id="2nights" type="checkbox" label="Display 2 Night Pricing" />&price3=<perch:content id="3nights" type="checkbox" label="Display 3 Night Pricing" />&price4=<perch:content id="4nights" type="checkbox" label="Display 4 Night Pricing" />&price5=<perch:content id="5nights" type="checkbox" label="Display 5 Night Pricing" />&price6=<perch:content id="6nights" type="checkbox" label="Display 6 Night Pricing" />&price7=<perch:content id="7nights" type="checkbox" label="Display 7 Night Pricing" />' );
+				});
+				</script>
+			</div>
+			<div class="tab enquiry flow" id="enquiry">
+				<h3>Make an Enquiry</h3>
+				<div class="enquiry-form"><a class="button huge" href="/contact">Make Enquiry</a></div>
+				<h2>Prefer to Talk or Want to Discuss More Flexible Dates?</h2>
+				<p>Call us on 07738 900156 to book your accommodation over the phone.</p>
+				<script type="text/javascript">
+				$(document).ready(function(){
+					$( ".monthly-calendar" ).load( '/perch/templates/simple_calendar/monthly-calendar.php?unit=<perch:content id="slug" type="slug" for="cottageName" supress="true" />' );
+				});
+				</script>
+			</div>
+			<perch:if id="displayLocation" value="hide">
+				
+			<perch:else />
+				<div class="tab location flow">
+					<h3>Property Location</h3>
+					<perch:content id="cottageLocationMap" type="textarea" label="Property Location Map & Description" html="true" editor="markitup"  />
+				</div>
+			</perch:if>
+		</div>
+	</div>
+</div>
+
+<perch:content id="minPrice" type="text" label="Min Price" required="true" suppress="true" divider-before="Min and Max Prices" />
+<perch:content id="maxPrice" type="text" label="Max Price" required="true" suppress="true" />
+
+<perch:content id="discount" type="text" label="Discount Offer" suppress="true" divider-before="Discounts" />
+
+<perch:content id="displayLocation" type="select" label="Show/Hide Location Box" options="show,hide" suppress="true" />
+
+<perch:content type="checkbox" id="hide" label="Hide" suppress="true" value="true" divider-before="Visibility" />
+
+<perch:content id="slug" type="slug" for="cottageName" suppress="true" />

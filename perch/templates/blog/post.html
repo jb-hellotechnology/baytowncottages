@@ -1,0 +1,23 @@
+<article class="h-entry flow">
+	<h1 class="script">
+        <perch:blog id="postTitle" type="text" label="Title" required="true" size="xl autowidth" order="1" />
+    </h1>
+	<p class="meta date">
+        <time class="dt-published" datetime="<perch:blog id="postDateTime" type="date" label="Date" time="true" format="Y-m-d H:i:s" divider-before="Publishing" />">
+            <perch:blog id="postDateTime" type="date" time="true" format="%d %B %Y" /> 
+        </time>
+	</p>
+	<div class="sharethis-inline-share-buttons"></div>
+    <perch:if exists="image">
+        <div>
+            <img src="<perch:blog id="image" type="image" width="1024" height="768" crop="true" label="Image" order="4" />" alt="<perch:blog id="postTitle" />" />
+        </div>
+    </perch:if>
+    <div class="description e-content flow">
+    	<perch:blog id="postDescHTML" type="textarea" label="Post" order="2" editor="redactor" html="true" size="xxl autowidth" required="true" width="800px" height="800px" />
+    </div>
+</article>
+
+<perch:blog id="excerpt" type="textarea" label="Excerpt" markdown="true" order="3" suppress="true" size="s" />
+<perch:blog id="image" type="image" width="50" height="50" crop="true" suppress="true" />
+<perch:blog id="image" type="image" width="360" height="180" crop="true" suppress="true" />

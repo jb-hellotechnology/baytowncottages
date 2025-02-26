@@ -1,0 +1,101 @@
+<perch:form id="register" method="post" app="perch_members perch_mailchimp" type="default">
+
+  <h2>
+    Please Register
+  </h2>
+  
+  <p>In order to make a booking and manage your account online you must first register with our website and sign in.</p>
+  
+	<div>
+		<perch:label for="first_name">First name</perch:label>
+		<perch:input type="text" id="first_name" required="true" label="First name" mailer="FNAME" />
+		<perch:error for="first_name" type="required"><span>Please add your name</span></perch:error>
+	</div>
+
+	<div>
+		<perch:label for="last_name">Last name</perch:label>
+		<perch:input type="text" id="last_name" required="true" label="Last name" mailer="LNAME" />
+		<perch:error for="last_name" type="required"><span>Please add your name</span></perch:error>
+	</div>
+
+	<div>
+		<perch:label for="email">Email</perch:label>
+		<perch:input type="email" id="email" required="true" placeholder="you@company.com" helper="PerchMembers_Members::check_email" mailer="email" />
+		<perch:error for="email" type="required"><span>Please add your email address</span></perch:error>
+		<perch:error for="email" type="helper"><span>That email address is already in use</span></perch:error>
+	</div>
+  
+	<div>
+		<perch:label for="mobile">Mobile</perch:label>
+		<perch:input type="text" id="mobile" required="true" label="Mobile" />
+		<perch:error for="address_1" type="required"><span>Please add a mobile number</span></perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="alt_mobile">Alternate Mobile or Landline</perch:label>
+		<perch:input type="text" id="alt_mobile" label="Alternate Mobile or Landline" />
+	</div>
+  
+  <div>
+		<perch:label for="address_1">Address 1</perch:label>
+		<perch:input type="text" id="address_1" required="true" label="Address 1" />
+		<perch:error for="address_1" type="required"><span>Please add your address</span></perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="address_2">Address 2</perch:label>
+		<perch:input type="text" id="address_2" required="true" label="Address 2" />
+		<perch:error for="address_2" type="required"><span>Please add your address</span></perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="address_3">Address 3</perch:label>
+		<perch:input type="text" id="address_3" label="Address 3" />
+		<perch:error for="address_3" type="required"><span>Please add your address</span></perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="post_code">Post Code</perch:label>
+		<perch:input type="text" id="post_code" required="true" label="Post Code" />
+		<perch:error for="post_code" type="required"><span>Please add your post code</span></perch:error>
+	</div>
+  
+  <div>
+		<perch:label for="country">Country</perch:label>
+		<perch:input type="text" id="country" required="true" label="Country" />
+		<perch:error for="country" type="required"><span>Please add your country</span></perch:error>
+	</div>
+
+	<div>
+		<perch:label for="password">Password</perch:label>
+		<perch:input type="password" id="password" required="true" match-with="password2" />
+		<perch:error for="password" type="required"><span>Please add a password</span></perch:error>
+		<perch:error for="password" type="match"><span>Passwords do not match</span></perch:error>
+	</div>
+
+	<div>
+		<perch:label for="password2">Password again</perch:label>
+		<perch:input type="password" id="password2" required="true" />
+		<perch:error for="password2" type="required"><span>Please repeat your password</span></perch:error>
+	</div>
+	
+	<div>
+		<h3>Don't Miss Out on Special Offers and the Latest News from Baytown Cottages</h3>
+		<label>Tick the box to sign up for our mailing list <perch:input type="checkbox" value="1" id="confirm" mailer="confirm_subscribe"></label>
+	</div>
+
+
+	<div>
+		<perch:input type="submit" value="Register" />
+	</div>
+	
+    <perch:input type="hidden" id="list" value="3e15734937" mailer="list">
+
+	<perch:success>
+		<div>
+			<h2>Success!</h2>
+			<p class="success">You're registered and signed in! <a href="/our-cottages">Click here to continue your booking</a>.</p>
+		</div>
+	</perch:success>
+  
+</perch:form>

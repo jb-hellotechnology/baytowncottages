@@ -1,0 +1,6 @@
+{
+    "Member Search": "Member Search",
+    "CMA Member Search": "CMA Member Search",
+    "Search Members": "Search Members",
+    "Search Text": "Search Text"
+}
