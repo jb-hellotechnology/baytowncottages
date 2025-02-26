@@ -1,0 +1,13 @@
+<perch:form id="exportCSV" method="post" app="cma_branchcontact" type="default" action="">
+	<fieldset>
+		<legend>Click to Download</legend>
+        <div>
+	        <perch:label for="">Export Type</perch:label>
+	        <perch:input name="type" type="select" options="all,active,pending expiry,expired" />
+        </div>
+        <div>
+	        <perch:input type="submit" value="Export CSV" />
+	        <perch:input name="branchContactSlug" id="branchContactSlug" type="hidden" />
+        </div>
+	</fieldset>
+</perch:form>

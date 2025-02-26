@@ -1,0 +1,68 @@
+<perch:before>
+<div class="cottages-grid">
+</perch:before>
+<div class="cottage">
+	<div class="title">
+			<h2><a href="/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" />"><perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" /></a></h2>
+	</div>
+	<a href="/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" />" class="cottage-link">
+		<img src="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />" alt="<perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" />" />
+		<perch:if exists="discount">
+			<p class="discount"><perch:content id="discount" /></p>
+		</perch:if>
+	</a>
+<!-- 	<p class="price">&pound;<perch:content id="minPrice"/> - &pound;<perch:content id="maxPrice"/></p> -->
+	<div class="text">
+		<ul class="facilities">
+			<perch:if exists="cottageSleeps">
+				<li class="sleeps">Sleeps <perch:content id="cottageSleeps" type="text" label="Sleeps" required="true" /></li>
+			</perch:if>
+			<perch:if exists="cottageLocation">
+				<li class="location"><perch:content id="cottageLocation" type="select" label="Location" options="Lower Robin Hood's Bay, Upper Robin Hood's Bay, Whitby Area" allowempty="false" required="true" /></li>
+			</perch:if>
+			<perch:if exists="wifi">
+				<li class="wifi"><perch:content id="wifi" type="checkbox" label="WiFi" value="WiFi" /></li>
+			</perch:if>
+			<perch:if exists="parkingpermit">
+				<li class="parking">Parking</li>
+			</perch:if>
+			<perch:if exists="parkingpermit-fisherhead">
+				<li class="parking">Parking</li>
+			</perch:if>
+			<perch:if exists="parkingpermit-council">
+				<li class="parking">Parking</li>
+			</perch:if>
+			<perch:if exists="parkingpermit-private">
+				<li class="parking">Parking</li>
+			</perch:if>
+			<perch:if exists="parking-onstreet">
+				<li class="parking">Parking (On Street)</li>
+			</perch:if>
+			<perch:if exists="petfriendly">
+				<li class="pets">Pet Friendly</li>
+			</perch:if>
+		</ul>
+	</div>
+</div>
+
+<perch:noresults>
+	<h3><em>Oh no! We don't have any cottages which match your options - please revise your filtering options, or call us on 01947 459097 to discuss your requirements.</em></h3>
+</perch:noresults>
+
+
+<perch:after>
+	</div>
+	<perch:if exists="paging">
+	  <div class="paging">
+	    <p>Page <perch:content id="current_page" type="hidden" /> of <perch:content id="number_of_pages" type="hidden" />
+	    <perch:if exists="not_first_page">
+	      <a href="<perch:content id="prev_url" type="hidden" encode="false" />" class="button prev">Previous</a>
+	    </perch:if>
+	    <perch:content id="page_links" encode="false" type="hidden" />
+	    <perch:if exists="not_last_page">
+	      <a href="<perch:content id="next_url" type="hidden" encode="false" />" class="button next">Next</a>
+	    </perch:if>
+	    </p>
+	  </div>
+	</perch:if>
+</perch:after>

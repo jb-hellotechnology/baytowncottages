@@ -1,0 +1,69 @@
+<perch:form id="updateBranch" method="post" app="cma_branchcontact" type="default" action="">
+	<fieldset>
+		<legend>Update Branch Contact Details</legend>
+		<p>Use the form below to enter all the information you can about your Branch. Please ensure it is accurate and kept up to date.</p>
+      
+		<div>
+			<perch:label for="">Welcome Information</perch:label>
+			<perch:input id="branchDescription" label="Article" type="textarea" class="redactor" editor="redactor" html="true" />
+        </div>
+        <div>
+			<perch:label for="">Contact Name</perch:label>
+			<perch:input name="branchContactName" id="branchContactName" type="text" required />
+        </div>
+        <div>
+			<perch:label for="">Contact Telephone</perch:label>
+			<perch:input name="branchContactTelephone" id="branchContactTelephone" type="text" required />
+        </div>
+        <div>
+			<perch:label for="">Contact Email Address</perch:label>
+			<perch:input name="branchContactEmail" id="branchContactEmail" type="text" placeholder="you@example.com" required />
+        </div>
+        <div>
+			<perch:label for="">Facebook URL</perch:label>
+			<perch:input name="branchContactFacebook" id="branchContactFacebook" type="text" placeholder="http://facebook.com/yoursite" />
+        </div>
+        <div>
+			<perch:label for="">Twitter URL</perch:label>
+			<perch:input name="branchContactTwitter" id="branchContactTwitter" type="text" placeholder="http://twitter.com/yourname" />
+        </div>
+        <div>
+			<perch:label for="">Instagram URL</perch:label>
+			<perch:input name="branchContactInstagram" id="branchContactInstagram" type="text" placeholder="http://instagram.com/yourname" />
+        </div>
+        <div>
+			<perch:label for="">Contact Notes</perch:label>
+			<perch:input name="branchContactNotes" id="branchContactNotes" type="text" placeholder="Evenings Only" />
+        </div>
+        <div>
+			<perch:label for="">Useful Links<br /><small>Churches, Charities, Groups and Organisations</small></perch:label>
+			<perch:input id="branchLinks" label="Useful Links" type="textarea" class="redactor" editor="redactor" html="true" />
+        </div>
+        <div>
+			<perch:label for="">Chair</perch:label>
+			<perch:input id="branchChair" label="Chair" type="select" options="<perch:cma id="branchMembers" />" />
+        </div>
+        <div>
+			<perch:label for="">Vicechair</perch:label>
+			<perch:input id="branchVicechair" label="Vicechair" type="select" options="<perch:cma id="branchMembers" />" />
+        </div>
+        <div>
+			<perch:label for="">Secretary</perch:label>
+			<perch:input id="branchSecretary" label="Secretary" type="select" options="<perch:cma id="branchMembers" />" />
+        </div>
+        <div>
+			<perch:label for="">Treasurer</perch:label>
+			<perch:input id="branchTreasurer" label="Treasurer" type="select" options="<perch:cma id="branchMembers" />" />
+        </div>
+        <div>
+			<perch:label for="">Prayer Coordinator</perch:label>
+			<perch:input id="branchPastoral" label="Pastoral Secretary" type="select" options="<perch:cma id="branchMembers" />" />
+        </div>
+        
+        
+        <div>
+	        <perch:input type="submit" value="Update Details" />
+	        <perch:input name="branchContactSlug" id="branchContactSlug" type="hidden" />
+        </div>
+	</fieldset>
+</perch:form>

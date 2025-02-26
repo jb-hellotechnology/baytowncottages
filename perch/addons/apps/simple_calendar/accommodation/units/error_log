@@ -1,0 +1,2 @@
+[04-Jul-2024 06:51:48 UTC] PHP Deprecated:  Creation of dynamic property PerchAuthenticatedUser::$result is deprecated in /home/baytownholiday/public_html/perch/core/lib/PerchAuthenticatedUser.class.php on line 153
+[04-Jul-2024 11:03:48 UTC] PHP Deprecated:  Creation of dynamic property PerchAuthenticatedUser::$result is deprecated in /home/baytownholiday/public_html/perch/core/lib/PerchAuthenticatedUser.class.php on line 153

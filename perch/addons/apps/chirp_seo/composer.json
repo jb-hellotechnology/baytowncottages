@@ -1,0 +1,14 @@
+{
+	"config": {
+        "vendor-dir": "lib/vendor",
+        "preferred-install": "dist",
+        "platform": {
+            "php": "7.0"
+        }
+    },
+    "require": {
+      "davechild/textstatistics": "1.*",
+			"sgrodzicki/pagespeed": "~2.0",
+      "paquettg/php-html-parser": "^1.7"
+    }
+}
