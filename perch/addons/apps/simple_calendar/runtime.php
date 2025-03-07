@@ -992,6 +992,8 @@ function send_confirmation($reference){
 	$memberDetails = json_decode($customerData['memberProperties'],true);
 	$emailData = $SimpleCalendar->getEmail(1);
 	
+	print_r($emailData);
+	
 	$arrivalDates = explode(" ",$booking['startTime']);
 	$arrivalDates = explode("-",$arrivalDates[0]);
 	$arrival = "$arrivalDates[2]/$arrivalDates[1]/$arrivalDates[0]";
@@ -1024,6 +1026,8 @@ function send_confirmation($reference){
 	$emailContent,
 	$emailData['content']
 	);
+	
+	echo $message;
 
 	// SEND EMAIL
 	
