@@ -981,6 +981,7 @@ function record_payment($reference, $payment){
 
 function send_confirmation($reference){
 	
+	$API = new Simple_Calendars($API);
 	$SimpleCalendar = new Simple_Calendars($API);
 
 	$defaultEmail = 'info@baytownholidaycottages.co.uk';
