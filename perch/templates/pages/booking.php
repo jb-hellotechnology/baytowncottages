@@ -336,7 +336,6 @@
               
               pPet = $('#pet').val();
 
-              
               if ($('#payinfull').is(':checked')) {
                 var pPay = 'on';
               }

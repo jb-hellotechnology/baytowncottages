@@ -22,6 +22,8 @@ perch/**
 
 !perch/templates/
 !perch/templates/**
+!perch/templates/pages
+!perch/template/pages/**
 !perch/addons/
 !perch/addons/**
 !perch/addons/apps/

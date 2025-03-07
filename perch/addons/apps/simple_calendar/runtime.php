@@ -1028,7 +1028,7 @@ function send_confirmation($reference){
 	// SEND EMAIL
 	
 	  $to = $customerData['memberEmail'];
-	  $message = nl2br($content);
+	  $message = nl2br($message);
 	
 	  $headers = 'From: ' . $defaultEmail . "\r\n" .
 	  'X-Mailer: PHP/' . phpversion(); $header .= "\r\n";
