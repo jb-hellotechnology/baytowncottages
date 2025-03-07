@@ -9,7 +9,6 @@ $stripe = new \Stripe\StripeClient($secret_key);
 // If you are testing with the CLI, find the secret by running 'stripe listen'
 // If you are using an endpoint defined with the API or dashboard, look in your webhook settings
 // at https://dashboard.stripe.com/webhooks
-$endpoint_secret = 'whsec_jvyinT8ptCeKM3fQTxJjTvdnSPxjNDxT';
 
 $payload = @file_get_contents('php://input');
 $event = null;
