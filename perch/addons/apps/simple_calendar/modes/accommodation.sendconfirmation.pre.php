@@ -10,7 +10,7 @@
     $Template = $API->get('Template');
     
     $Settings = $API->get('Settings');
-	  $defaultEmail = $Settings->get('simple_calendar_DefaultEmail')->val();
+	$defaultEmail = $Settings->get('simple_calendar_DefaultEmail')->val();
     
     $id = $_GET['id'];
 	

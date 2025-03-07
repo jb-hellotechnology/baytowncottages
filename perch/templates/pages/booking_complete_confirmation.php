@@ -12,7 +12,8 @@
 		<div class="textarea flow">
         <?php
         echo "<h1>Booking Success</h1>";
-        echo "<p>We've emailed you a booking confirmation and will be in touch about your holiday in due course.</p>";
+		echo "<p>We've emailed you a booking confirmation and will be in touch about your holiday in due course.</p>";
+		latest_booking(perch_member_get('memberID'));
         echo "<p>Now you can begin looking forward to your holiday in Robin Hood's Bay!</p>";
         echo "<p>Thanks for booking with Baytown Holiday Cottages,<br /><em>Sam and Sian</em></p>";
         ?>

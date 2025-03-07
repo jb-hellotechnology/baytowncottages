@@ -667,6 +667,18 @@ class Simple_Calendars extends PerchAPI_Factory
 	    $insert = $this->db->insert('simple_calendar_accommodation_bookings', $booking);
   }
   
+  public function cancelBooking($bookingID){
+	  if($bookingID>0){
+	    $sql = 'DELETE FROM simple_calendar_accommodation_bookings WHERE bookingID='.$bookingID;
+	    $data = $this->db->execute($sql);
+  	  }
+  }
+  
+  public function recordPayment($bookingID, $payment){
+	  $sql = 'UPDATE simple_calendar_accommodation_bookings SET paid="'.$payment.'" WHERE bookingID='.$bookingID;
+	  $data = $this->db->execute($sql);
+  }
+  
   public function getLastBooking(){
     $sql = 'SELECT * FROM simple_calendar_accommodation_bookings ORDER BY bookingID DESC LIMIT 1';
 	$data = $this->db->get_row($sql);
@@ -687,6 +699,13 @@ class Simple_Calendars extends PerchAPI_Factory
 	  $sql = 'SELECT * FROM simple_calendar_accommodation_bookings WHERE customerID="'.$id.'" AND startTime<="'.$date.'" ORDER BY startTime DESC';
 	  $data = $this->db->get_rows($sql);
 
+	  return $data;
+  }
+  
+  public function latest_booking($id){
+	  $sql = 'SELECT * FROM simple_calendar_accommodation_bookings WHERE customerID="'.$id.'" ORDER BY bookingID DESC LIMIT 1';
+	  $data = $this->db->get_row($sql);
+	  
 	  return $data;
   }
     

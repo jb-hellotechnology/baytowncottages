@@ -8,11 +8,11 @@
         count.
     */
 
-/*
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
-*/
+
+	// ini_set('display_errors', 1);
+	// ini_set('display_startup_errors', 1);
+	// error_reporting(E_ALL);
+
 
     # Include your class files as needed - up to you.
     include('Simple_Calendars.class.php');
@@ -553,10 +553,10 @@ function getUnitByID($unitID){
     
   }
 
-function getPrice($nights,$unit,$arrival,$pet,$pay,$bottom,$adults,$children){
+function getPrice($nights,$unit,$arrival,$pet,$pay,$output,$adults,$children){
     $API = new Simple_Calendars($API);
     $SimpleCalendar = new Simple_Calendars($API);
-  
+
     $arrivalDate = explode("-",$arrival);
 
     $unitData = $SimpleCalendar->unitbySlug($unit,'');
@@ -607,7 +607,7 @@ function getPrice($nights,$unit,$arrival,$pet,$pay,$bottom,$adults,$children){
         $error = 1;
       }
       
-      $nightPrice = number_format($nightPrice, 2, '.', '');
+      $nightPrice = number_format($nightPrice, 5, '.', '');
       
       //echo $nightPrice."<br/>";
 
@@ -634,7 +634,7 @@ function getPrice($nights,$unit,$arrival,$pet,$pay,$bottom,$adults,$children){
       $totalPrice = $totalPrice+(25*$pet);
     }
     
-    $totalPrice = number_format(floor($totalPrice), 2, '.', '');
+    $totalPrice = number_format($totalPrice, 2, '.', '');
 
     $today = date('Y-m-d');
     $diff = strtotime($arrival) - strtotime($today);
@@ -657,7 +657,7 @@ function getPrice($nights,$unit,$arrival,$pet,$pay,$bottom,$adults,$children){
       
     }else{
 
-	  if($bottom==1){
+	  if($output==1){
 	      $HTML .= "<h3>Total Price</h3>";
 	      $HTML .= "<p>&pound;$totalPrice";
 	      if($unitData['minDiscount']>0 AND $partySize<=$unitData['minDiscount'] AND $unitData['discountPercentage']>0 AND $dateData['discount']=='on'){
@@ -672,100 +672,35 @@ function getPrice($nights,$unit,$arrival,$pet,$pay,$bottom,$adults,$children){
 	      $HTML .= "<h3>Terms &amp; Conditions</h3>";
 	      $HTML .= "<label><input type=\"checkbox\" id=\"terms\" name=\"terms\" onclick=\"javascript:checkTerms();\" /> I agree to the <a href=\"/terms\" target=\"_blank\">terms and conditions</a> of booking</label><br />";
 	      $HTML .= '<span class="stripebutton" style="display:none;"><h3>Ready to Pay?</h3>';
-	      $HTML .= '<div id="card-element"></div>
-				  <div id="card-errors" role="alert"></div>
-				  <button id="submit" class="button">Pay by Card</button>
+	      $HTML .= '<button id="submit" class="button">Pay by Card</button>
 				</form>';
 		  $stripeDeposit = $deposit*100;
 		  //$stripeDeposit = 100;
 		  $HTML .= '
 				<script>
-				function checkTerms(){
+					function checkTerms(){
 	                  if (document.getElementById("terms").checked) {
 	                   $(".stripebutton").show();
 	                  } else {
 	                   $(".stripebutton").hide();
 	                  }
 	                }
-				var response = fetch("/token.php?value='.$stripeDeposit.'").then(function(response) {
-				  return response.json();
-				}).then(function(responseJson) {
-				  var clientSecret = responseJson.client_secret;
-				  console.log(clientSecret);
-				  // Call stripe.confirmCardPayment() with the client secret.
 				
-				var stripe = Stripe(\'pk_live_b90Wlyj6LPMkIIcgvsbM6KqU\');
-				var elements = stripe.elements();
-				
-				var elements = stripe.elements();
-				var style = {
-				  base: {
-				    color: "#000",
-				  }
-				};
-				
-				var card = elements.create("card", { 
-					hidePostalCode: true, 
-					style: { 
-						base: {
-						  lineHeight: \'40px\',
-						  fontWeight: 300,
-						  fontSize: \'15px\',
-						  \'::placeholder\': {
-						    color: \'#222\',
-						   }, 
-						}
-					}
-				});
-				card.mount("#card-element");
-				
-				card.on("change", ({error}) => {
-				  let displayError = document.getElementById("card-errors");
-				  if (error) {
-				    displayError.textContent = error.message;
-				  } else {
-				    displayError.textContent = "";
-				  }
-				});
-				
-				var form = document.getElementById(\'payment-form\');
-	
-				form.addEventListener(\'submit\', function(ev) {
-				  $(\'#payment-form button\').prop("disabled", true);
-				  $(\'#payment-form button\').hide();
-				  ev.preventDefault();
-				  stripe.confirmCardPayment(clientSecret, {
-				    payment_method: {
-				      card: card,
-				      billing_details: {
-				        name: \''.perch_member_get('first_name').' '.perch_member_get('last_name').'\',
-				        email: \''.perch_member_get('email').'\',
-				      }
-				    }
-				  }).then(function(result) {
-				    if (result.error) {
-				      // Show error to your customer (e.g., insufficient funds)
-				      $(\'#payment-form button\').prop("disabled", false);
-				      $(\'#payment-form button\').show();
-				    } else {
-					    var datastring = $("#payment-form").serialize();
-						$.ajax({
-						    type: "POST",
-						    url: "/booking/complete",
-						    data: datastring,
-						    success: function(data) {
-						        window.location.replace("/complete");
-						    },
-						    error: function(data) {
-						        
-						    }
+					$("#submit").click(function(event){
+						event.preventDefault();
+						$.post( "/booking/complete", $( "#payment-form" ).serialize(), function(data){
+							if(data !== "error"){
+								$("#booking_bookingID").val(data);
+								$("form#redirect").submit();
+							}else{
+								alert("Booking Conflict");
+							}
 						});
-				    }
-				  });
-				});
-				});
+					});
 				</script>';
-       }else{
+       }elseif($output==2){
+		   $HTML = $deposit*100;
+	   }else{
 	      $HTML .= "<h3>Total Price</h3>";
 	      $HTML .= "<p>&pound;$totalPrice";
 	      if($unitData['minDiscount']>0 AND $partySize<=$unitData['minDiscount'] AND $partySize>0 AND $unitData['discountPercentage']>0){
@@ -813,32 +748,34 @@ function simple_calendar_make_booking($startTime,$endTime,$unitID,$customerID,$c
   
   $booking = $SimpleCalendar->getLastBooking();
 
-  $placeHolders = array("{{unitName}}","{{bookingID}}","{{memberName}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingPaid}}");
-  $emailContent = array($unitData['name'],"#".$booking['bookingID'],$memberDetails['first_name'],$arrivalFull,$departureFull,$nights,$cost,$paid);
-
-  $subject = str_replace(
-    $placeHolders,
-    $emailContent,
-    $emailData['subject']
-  );
-
-  $message = nl2br(str_replace(
-    $placeHolders,
-    $emailContent,
-    $emailData['content']
-  ));
-
-	$defaultEmail = 'info@baytownholidaycottages.co.uk';
+//   $placeHolders = array("{{unitName}}","{{bookingID}}","{{memberName}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingPaid}}");
+//   $emailContent = array($unitData['name'],"#".$booking['bookingID'],$memberDetails['first_name'],$arrivalFull,$departureFull,$nights,$cost,$paid);
+// 
+//   $subject = str_replace(
+//     $placeHolders,
+//     $emailContent,
+//     $emailData['subject']
+//   );
+// 
+//   $message = nl2br(str_replace(
+//     $placeHolders,
+//     $emailContent,
+//     $emailData['content']
+//   ));
+// 
+// 	$defaultEmail = 'info@baytownholidaycottages.co.uk';
+//   
+//   $to = $customerData['memberEmail'];
+// 
+//   $headers = 'From: ' . $defaultEmail . "\r\n" .
+//       'X-Mailer: PHP/' . phpversion(); $header .= "\r\n";
+//   $headers .= 'MIME-Version: 1.0' . "\r\n";
+//   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+//   $headers .= 'Cc: info@baytownholidaycottages.co.uk' . "\r\n";
+// 
+//   mail($to, $subject, $message, $headers);
   
-  $to = $customerData['memberEmail'];
-
-  $headers = 'From: ' . $defaultEmail . "\r\n" .
-      'X-Mailer: PHP/' . phpversion(); $header .= "\r\n";
-  $headers .= 'MIME-Version: 1.0' . "\r\n";
-  $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-  $headers .= 'Cc: info@baytownholidaycottages.co.uk' . "\r\n";
-
-  mail($to, $subject, $message, $headers);
+  return $booking['bookingID'];
   
 }
 
@@ -1026,4 +963,90 @@ function member_bookings($id){
 		}
 		echo "</ul>";
 	}
+}
+
+function cancel_booking($reference){
+	$API = new Simple_Calendars($API);
+	$SimpleCalendar = new Simple_Calendars($API);
+	  
+	$SimpleCalendar->cancelBooking($reference);	
+}
+
+function record_payment($reference, $payment){
+	$API = new Simple_Calendars($API);
+	$SimpleCalendar = new Simple_Calendars($API);
+	  
+	$SimpleCalendar->recordPayment($reference, $payment);
+}
+
+function send_confirmation($reference){
+	
+	$SimpleCalendar = new Simple_Calendars($API);
+
+	$defaultEmail = 'info@baytownholidaycottages.co.uk';
+	
+	$booking = $SimpleCalendar->booking($reference, false);
+	
+	$customerData = $SimpleCalendar->customer($booking['customerID']);
+	$unitData = $SimpleCalendar->unit($booking['unitID'],'');
+	$memberDetails = json_decode($customerData['memberProperties'],true);
+	$emailData = $SimpleCalendar->getEmail(1);
+	
+	$arrivalDates = explode(" ",$booking['startTime']);
+	$arrivalDates = explode("-",$arrivalDates[0]);
+	$arrival = "$arrivalDates[2]/$arrivalDates[1]/$arrivalDates[0]";
+	
+	$arrivalFull = date("l jS \of F Y", mktime(0, 0, 0, $arrivalDates[1], $arrivalDates[2], $arrivalDates[0]));
+	
+	$departureDates = explode(" ",$booking['endTime']);
+	$departureDates = explode("-",$departureDates[0]);
+	$departure = "$departureDates[2]/$departureDates[1]/$departureDates[0]";
+	
+	$departureFull = date("l jS \of F Y", mktime(0, 0, 0, $departureDates[1], $departureDates[2], $departureDates[0]));
+	
+	$arrivalDates = explode(" ",$booking['startTime']);
+	$departureDates = explode(" ",$booking['endTime']);
+	
+	$diff = strtotime($departureDates[0]) - strtotime($arrivalDates[0]);
+	$nights = $diff/86400;
+	
+	$placeHolders = array("{{unitName}}","{{bookingID}}","{{memberName}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingPaid}}");
+	$emailContent = array($unitData['name'],"#".$booking['bookingID'],$memberDetails['first_name'],$arrivalFull,$departureFull,$nights,$booking['cost'],$booking['paid']);
+	
+	$subject = str_replace(
+	$placeHolders,
+	$emailContent,
+	$emailData['subject']
+	);
+	
+	$message = str_replace(
+	$placeHolders,
+	$emailContent,
+	$emailData['content']
+	);
+
+	// SEND EMAIL
+	
+	  $to = $customerData['memberEmail'];
+	  $message = nl2br($content);
+	
+	  $headers = 'From: ' . $defaultEmail . "\r\n" .
+	  'X-Mailer: PHP/' . phpversion(); $header .= "\r\n";
+	  $headers .= 'MIME-Version: 1.0' . "\r\n";
+	  $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	  $headers .= 'Cc: info@baytownholidaycottages.co.uk' . "\r\n";
+	
+	  mail($to, $subject, $message, $headers);
+		
+}
+
+function latest_booking($id){
+	
+	$SimpleCalendar = new Simple_Calendars($API);
+	
+	$booking = $SimpleCalendar->latest_booking($id);
+	$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
+	
+	echo "<div class='well'><h2>Booking Details</h2><br /><h3>".$unit['name']."</h3><p>".nl2br($booking['notes'])."</p></div>";
+	
 }

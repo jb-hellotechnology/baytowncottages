@@ -86,8 +86,8 @@ $dates = explode("-",$arrival);
 $departure = date("Y-m-d", mktime(0, 0, 0, $dates[1], $dates[2]+$nights, $dates[0]));
 $departure = "$departure 10:00:00";
 
-$bookingID = simple_calendar_make_booking($arrival,$departure,$unitID,$customerID,$cost,$deposit,$notes,$pet);
+$bookingID = simple_calendar_make_booking($arrival,$departure,$unitID,$customerID,$cost,0,$notes,$pet);
 
-echo 'success';
+echo $bookingID;
         
 ?>

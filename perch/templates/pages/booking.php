@@ -235,10 +235,11 @@
           
           echo "<div class=\"form_div\" id=\"cost\" style=\"display:none;\">";
           echo "<h3>Cost &amp; Payment</h3>";
-          echo "<div id=\"cost\"><p><strong>Please choose a length of stay to calculate the cost</strong></p></div>";
+          echo "<button>Proceed to Payment</button>";
           echo "</div>";
 ?>
           <script type="text/javascript">
+            
             function party(maxOccupants){
               
               getPrice();
@@ -340,14 +341,23 @@
                 var pPay = 'on';
               }
               
-              $.post( "/getprice?r=" + Math.random(), { unit: "<?php echo $unit; ?>", arrival: "<?php echo $arrivalDate; ?>", nights: pNights, pet:pPet, pay:pPay, adults:pAdults, children:pChildren }).done(function( data ) {
+              $.post( "/booking/get-price?r=" + Math.random(), { unit: "<?php echo $unit; ?>", arrival: "<?php echo $arrivalDate; ?>", nights: pNights, pet:pPet, pay:pPay, adults:pAdults, children:pChildren }).done(function( data ) {
                 $('#cost').html(data);
               });
-              $.post( "/getpricetop?r=" + Math.random(), { unit: "<?php echo $unit; ?>", arrival: "<?php echo $arrivalDate; ?>", nights: pNights, pet:pPet, pay:pPay, adults:pAdults, children:pChildren }).done(function( data ) {
+              $.post( "/booking/get-price-top?r=" + Math.random(), { unit: "<?php echo $unit; ?>", arrival: "<?php echo $arrivalDate; ?>", nights: pNights, pet:pPet, pay:pPay, adults:pAdults, children:pChildren }).done(function( data ) {
                 $('#cost_top').html(data);
+              });
+              $.post( "/booking/get-price-value?r=" + Math.random(), { unit: "<?php echo $unit; ?>", arrival: "<?php echo $arrivalDate; ?>", nights: pNights, pet:pPet, pay:pPay, adults:pAdults, children:pChildren }).done(function( data ) {
+                $('#booking_price').val(data);
               });
             }
           </script>
+        </form>
+        <form id="redirect" action="/booking/redirect" method="post" style="display:none">
+          <input type="text" name="name" value="Cottage: <?= $unitData['name'] ?> - Arrival: <?= $arrivalDateH ?>" id="booking_name" />
+          <input type="text" name="email" value="<?= perch_member_get('email') ?>" id="booking_email" />
+          <input type="text" name="price" value="" id="booking_price" />
+          <input type="text" name="bookingID" value="" id="booking_bookingID" />
         </form>
 	</div>
 </main>

@@ -1952,3 +1952,9 @@ a span{
 .cottage-top ul.f-carousel__dots{
 	display:none;
 }
+
+.well{
+	padding:1rem;
+	background:#f1f2f2;
+	border:1px solid #eee;
+}
