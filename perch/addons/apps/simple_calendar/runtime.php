@@ -607,7 +607,7 @@ function getPrice($nights,$unit,$arrival,$pet,$pay,$output,$adults,$children){
         $error = 1;
       }
       
-      $nightPrice = number_format($nightPrice, 5, '.', '');
+      $nightPrice = round(number_format($nightPrice, 5, '.', ''));
       
       //echo $nightPrice."<br/>";
 
@@ -993,8 +993,6 @@ function send_confirmation($reference){
 	$memberDetails = json_decode($customerData['memberProperties'],true);
 	$emailData = $SimpleCalendar->getEmail(1);
 	
-	print_r($emailData);
-	
 	$arrivalDates = explode(" ",$booking['startTime']);
 	$arrivalDates = explode("-",$arrivalDates[0]);
 	$arrival = "$arrivalDates[2]/$arrivalDates[1]/$arrivalDates[0]";
@@ -1027,8 +1025,6 @@ function send_confirmation($reference){
 	$emailContent,
 	$emailData['content']
 	);
-	
-	echo $message;
 
 	// SEND EMAIL
 	
