@@ -634,7 +634,7 @@ function getPrice($nights,$unit,$arrival,$pet,$pay,$output,$adults,$children){
       $totalPrice = $totalPrice+(25*$pet);
     }
     
-    $totalPrice = number_format($totalPrice, 2, '.', '');
+    $totalPrice = round(number_format($totalPrice, 2, '.', ''));
 
     $today = date('Y-m-d');
     $diff = strtotime($arrival) - strtotime($today);
