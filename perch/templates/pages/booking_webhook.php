@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 require_once '../../../vendor/autoload.php';
 require_once '../../../secrets.php';
@@ -29,6 +32,7 @@ switch ($event->type) {
 	  $checkout = $event->data->object;
 	  $reference = $event->data->object->client_reference_id;
 	  $amount = $event->data->object->amount_total;
+	  $reference = simple_calendar_complete_booking($reference);
 	  record_payment($reference, $amount/100);
 	  send_confirmation($reference);
 	break;

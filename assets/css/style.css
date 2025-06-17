@@ -841,6 +841,16 @@ footer ul{
 	list-style-type: disc;
 }
 
+footer ul.social{
+	list-style:none;
+}
+
+footer ul.social li{
+	display:inline-block;
+	margin-left:1rem;
+	font-size:1rem;
+}
+
 footer h2,
 footer h3,
 footer p,
@@ -935,6 +945,9 @@ p.smaller{
 	footer input{
 		width:100%;
 		text-align: center;
+	}
+	footer ul.social li{
+		margin:0 1rem;
 	}
 }
 

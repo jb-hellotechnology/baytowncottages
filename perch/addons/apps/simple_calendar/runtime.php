@@ -725,7 +725,7 @@ function simple_calendar_make_booking($startTime,$endTime,$unitID,$customerID,$c
   $API = new Simple_Calendars($API);
   $SimpleCalendar = new Simple_Calendars($API);
   
-  $SimpleCalendar->makeBooking($startTime,$endTime,$unitID,$customerID,$cost,$paid,$notes,$pet);
+  $SimpleCalendar->makeBooking_Pending($startTime,$endTime,$unitID,$customerID,$cost,$paid,$notes,$pet);
   
   $customerData = $SimpleCalendar->customer($customerID);
   $unitData = $SimpleCalendar->unit($unitID,'');
@@ -750,37 +750,24 @@ function simple_calendar_make_booking($startTime,$endTime,$unitID,$customerID,$c
   $diff = strtotime($departureDates[0]) - strtotime($arrivalDates[0]);
   $nights = $diff/86400;
   
-  $booking = $SimpleCalendar->getLastBooking();
-
-//   $placeHolders = array("{{unitName}}","{{bookingID}}","{{memberName}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingPaid}}");
-//   $emailContent = array($unitData['name'],"#".$booking['bookingID'],$memberDetails['first_name'],$arrivalFull,$departureFull,$nights,$cost,$paid);
-// 
-//   $subject = str_replace(
-//     $placeHolders,
-//     $emailContent,
-//     $emailData['subject']
-//   );
-// 
-//   $message = nl2br(str_replace(
-//     $placeHolders,
-//     $emailContent,
-//     $emailData['content']
-//   ));
-// 
-// 	$defaultEmail = 'info@baytownholidaycottages.co.uk';
-//   
-//   $to = $customerData['memberEmail'];
-// 
-//   $headers = 'From: ' . $defaultEmail . "\r\n" .
-//       'X-Mailer: PHP/' . phpversion(); $header .= "\r\n";
-//   $headers .= 'MIME-Version: 1.0' . "\r\n";
-//   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-//   $headers .= 'Cc: info@baytownholidaycottages.co.uk' . "\r\n";
-// 
-//   mail($to, $subject, $message, $headers);
+  $booking = $SimpleCalendar->getLastBooking_Pending();
   
   return $booking['bookingID'];
   
+}
+
+function simple_calendar_complete_booking($reference){
+	
+	$API = new Simple_Calendars($API);
+	$SimpleCalendar = new Simple_Calendars($API);
+	
+	$booking = $SimpleCalendar->getBooking_Pending($reference);
+	$SimpleCalendar->makeBooking($booking['startTime'], $booking['endTime'], $booking['unitID'], $booking['customerID'], $booking['cost'], $booking['paid'], $booking['notes'], $booking['addons']);
+	
+	$booking = $SimpleCalendar->getLastBooking();
+	  
+	return $booking['bookingID'];
+	
 }
 
 function requestreviews(){
@@ -1049,9 +1036,11 @@ function latest_booking($id){
 	
 	$SimpleCalendar = new Simple_Calendars($API);
 	
-	$booking = $SimpleCalendar->latest_booking($id);
-	$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
-	
-	echo "<div class='well'><h2>Booking Details</h2><br /><h3>".$unit['name']."</h3><p>".nl2br($booking['notes'])."</p></div>";
+	if($id){
+		$booking = $SimpleCalendar->latest_booking($id);
+		$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
+		
+		echo "<div class='well'><h2>Booking Details</h2><br /><h3>".$unit['name']."</h3><p>".nl2br($booking['notes'])."</p></div>";
+	}
 	
 }

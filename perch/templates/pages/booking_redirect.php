@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 require_once '../../../vendor/autoload.php';
 require_once '../../../secrets.php';
@@ -27,7 +27,7 @@ $checkout_session = $stripe->checkout->sessions->create([
   'client_reference_id' => $_POST['bookingID'],
   'customer_email' => $_POST['email'],
   'mode' => 'payment',
-  'success_url' => $your_domain . '/booking/success',
+  'success_url' => $your_domain . '/booking/success?session_id={CHECKOUT_SESSION_ID}',
   'cancel_url' => $your_domain . '/booking/cancel',
 ]);
 

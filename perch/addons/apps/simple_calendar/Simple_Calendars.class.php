@@ -651,7 +651,7 @@ class Simple_Calendars extends PerchAPI_Factory
     
   }
   
-  public function makeBooking($startTime,$endTime,$unitID,$customerID,$cost,$paid,$notes,$pet){
+  public function makeBooking($startTime,$endTime,$unitID,$customerID,$cost,$paid,$notes,$addons){
       $booking = array();
 	  $booking['startTime'] = $startTime;
       $booking['endTime'] = $endTime;
@@ -660,12 +660,27 @@ class Simple_Calendars extends PerchAPI_Factory
       $booking['cost'] = $cost;
       $booking['paid'] = $paid;
       $booking['notes'] = $notes;
-      if($pet>0){
-	      $booking['addons'] = '{"addon_12":"'.$pet.'","addon_12_price":"25.00"}';
-      }
+	  $booking['addons'] = $addons;
 	    
 	    $insert = $this->db->insert('simple_calendar_accommodation_bookings', $booking);
   }
+  
+  public function makeBooking_Pending($startTime,$endTime,$unitID,$customerID,$cost,$paid,$notes,$pet){
+
+		$booking = array();
+		$booking['startTime'] = $startTime;
+		$booking['endTime'] = $endTime;
+		$booking['unitID'] = $unitID;
+		$booking['customerID'] = $customerID;
+		$booking['cost'] = $cost;
+		$booking['paid'] = $paid;
+		$booking['notes'] = $notes;
+		if($pet>0){
+			$booking['addons'] = '{"addon_12":"'.$pet.'","addon_12_price":"25.00"}';
+		}
+		  
+		  $insert = $this->db->insert('simple_calendar_accommodation_bookings_pending', $booking);
+	}
   
   public function cancelBooking($bookingID){
 	  if($bookingID>0){
@@ -685,6 +700,20 @@ class Simple_Calendars extends PerchAPI_Factory
 
 	return $data;
   }
+  
+  public function getLastBooking_Pending(){
+	  $sql = 'SELECT * FROM simple_calendar_accommodation_bookings_pending ORDER BY bookingID DESC LIMIT 1';
+	  $data = $this->db->get_row($sql);
+  
+	  return $data;
+	}
+	
+	public function getBooking_Pending($id){
+	  $sql = 'SELECT * FROM simple_calendar_accommodation_bookings_pending WHERE bookingID='.$id;
+	  $data = $this->db->get_row($sql);
+	
+	  return $data;
+	}
   
   public function member_future_bookings($id){
 	  $date = date('Y-m-d');
