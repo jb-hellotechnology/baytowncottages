@@ -640,10 +640,14 @@ function getPrice($nights,$unit,$arrival,$pet,$pay,$output,$adults,$children){
     $diff = strtotime($arrival) - strtotime($today);
     $nights = $diff/86400;
     
-    
-
     if($nights>60 AND $pay<>'on'){
-      $deposit = number_format(ceil($totalPrice/3), 2, '.', '');
+      if($unitData['maxOccupants']<=2){
+		  $deposit = 50.00;
+	  }else{
+		  $deposit = 100.00;
+	  }
+	  //$deposit = number_format(ceil($totalPrice/3), 2, '.', '');
+	  $deposit = number_format($deposit, 2, '.', '');
     }else{
       $deposit = $totalPrice;
     }
