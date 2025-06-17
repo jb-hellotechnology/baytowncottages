@@ -48,7 +48,7 @@
 			<div class="restrict">
 				<ul>
 					<li>&copy; Baytown Holiday Cottages Ltd <?= date('Y') ?> &bull; <a href="/privacy-policy">Privacy Policy</a></li>
-					<li><a href="https://hellotechnology.co.uk/design" title="Website Design, Development and Hosting in Whitby, North Yorkshire">Website Development</a> by <a href="https://hellotechnology.co.uk">Hello Technology</a></li>
+					<li><a href="https://hellotechnology.co.uk" title="Website Design, Development and Hosting in Whitby, North Yorkshire">Website Design Whitby</a></li>
 				</ul>
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 	
 	<script src="https://kit.fontawesome.com/b1c527b17b.js" crossorigin="anonymous"></script>
 	
-	<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/carousel/carousel.umd.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/carousel/carousel.thumbs.umd.js"></script>
 	

@@ -7,13 +7,13 @@
 <div class="row cottage-top">
 	<div class="cottage-gallery">
 		<div class="f-carousel" id="myCarousel">
-			<div class="f-carousel__slide" data-fancybox="gallery">
+			<a class="f-carousel__slide" data-fancybox="gallery" href="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />">
 				<img data-lazy-src="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />" alt="Robin Hoods Bay Holiday Cottage" />
-			</div>
+			</a>
 			<perch:repeater id="gallery">
-				<div class="f-carousel__slide" data-fancybox="gallery">
+				<a class="f-carousel__slide" data-fancybox="gallery" href="<perch:content id="image2" type="image" label="Image 2" width="680" />">
 					<img src="<perch:content id="image2" type="image" label="Image 2" width="680" />" alt="Robin Hoods Bay Holiday Cottage" />
-				</div>
+				</a>
 			</perch:repeater>
 		</div>
 	</div>
