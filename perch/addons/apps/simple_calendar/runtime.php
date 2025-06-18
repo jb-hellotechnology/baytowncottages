@@ -371,7 +371,7 @@
               echo "$tabs\t\t<td></td>";
             }else{
 
-              $isArrival = $SimpleCalendar->isArrival($unit,$curDate);
+              //$isArrival = $SimpleCalendar->isArrival($unit,$curDate);
 
               if($isArrival==1 AND ($curDate2<>'12-24' AND $curDate2<>'12-25' AND $curDate2<>'12-26' AND $curDate2<>'12-31' AND $curDate2<>'01-01') AND $curDate>$gapDate){
                 $date_class = " class='ar'";
