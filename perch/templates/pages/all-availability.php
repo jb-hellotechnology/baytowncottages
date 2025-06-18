@@ -35,7 +35,7 @@
 		}
 		</script>
 	</div>
-<main>
+</main>
 <?php
     perch_layout('global/footer');
 ?>

@@ -353,8 +353,7 @@
 			        $thisDay = date("D", mktime(0, 0, 0, $month, $day, $year));
 			        
 			        $gapDate = date("Y-m-d", mktime(0, 0, 0, date('m'), date('d')+2, date('Y')));
-			        
-			        $unitData = $SimpleCalendar->unitSlug($unit);
+					
 					$rows = $SimpleCalendar->bookingCheck($unitData['unitID'],$curDate);
 					
 					if($rows>0){

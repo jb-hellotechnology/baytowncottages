@@ -345,6 +345,10 @@ main form input[type=checkbox]{
 	width:auto;
 }
 
+footer main form{
+	grid-template-columns: 1fr;	
+}
+
 .property-search form{
 	max-width: 100%;
 	display:block;
