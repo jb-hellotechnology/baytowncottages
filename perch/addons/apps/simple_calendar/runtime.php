@@ -354,7 +354,7 @@
 			        
 			        $gapDate = date("Y-m-d", mktime(0, 0, 0, date('m'), date('d')+2, date('Y')));
 					
-					$rows = $SimpleCalendar->bookingCheck($unitData['unitID'],$curDate);
+					//$rows = $SimpleCalendar->bookingCheck($unitData['unitID'],$curDate);
 					
 					if($rows>0){
 						$date_class = " class='un'";
