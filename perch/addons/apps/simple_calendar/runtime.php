@@ -354,7 +354,7 @@
 			        
 			        $gapDate = date("Y-m-d", mktime(0, 0, 0, date('m'), date('d')+2, date('Y')));
 					
-					//$rows = $SimpleCalendar->bookingCheck($unitData['unitID'],$curDate);
+					$rows = $SimpleCalendar->bookingCheck($unitData['unitID'],$curDate);
 					
 					if($rows>0){
 						$date_class = " class='un'";
@@ -371,7 +371,7 @@
               echo "$tabs\t\t<td></td>";
             }else{
 
-              //$isArrival = $SimpleCalendar->isArrival($unit,$curDate);
+              $isArrival = $SimpleCalendar->isArrival($unit,$curDate);
 
               if($isArrival==1 AND ($curDate2<>'12-24' AND $curDate2<>'12-25' AND $curDate2<>'12-26' AND $curDate2<>'12-31' AND $curDate2<>'01-01') AND $curDate>$gapDate){
                 $date_class = " class='ar'";
