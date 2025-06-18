@@ -331,10 +331,10 @@
             </tr>
 		        <tr class='cal-month'>
 		            <td colspan='7'>
-		            	<a class='last' href='javascript:month(\"$lastYear\",\"$lastMonth\",\"$unit\");'><i class='fa fa-arrow-left' aria-hidden='true'></i>
+		            	<a class='last' href='javascript:month(\"$lastYear\",\"$lastMonth\");'><i class='fa fa-arrow-left' aria-hidden='true'></i>
 						</a>"; 
 						echo date("F",$stamp); echo " $year"; 
-						echo "<a class='next' href='javascript:month(\"$nextYear\",\"$nextMonth\",\"$unit\");'><i class='fa fa-arrow-right' aria-hidden='true'></i>
+						echo "<a class='next' href='javascript:month(\"$nextYear\",\"$nextMonth\");'><i class='fa fa-arrow-right' aria-hidden='true'></i>
 						</a>
 					</td>
 		        </tr>
@@ -400,9 +400,9 @@
 			echo "$tabs<tr><td colspan='7'>Sleeps $unitData[maxOccupants]"; if($unitData['maxPets']>0){ echo " &bull; Pet Friendly";} echo "</td></table>";
 			
 		echo '<script type="text/javascript">
-			function month(year,month,unit){
+			function month(year,month){
 				$(".monthly-calendar").append("<div class=\"loading\"><p>Loading...</p></div>");
-				$( ".monthly-calendar-all" ).load( \'/perch/templates/simple_calendar/monthly-calendar-all.php?unit=\'+unit+\'&year=\'+year+\'&month=\'+month );	
+				$( ".monthly-calendar-all" ).load( \'/perch/templates/simple_calendar/monthly-calendar-all.php?year=\'+year+\'&month=\'+month);
 			}
 		</script>';	
 		
