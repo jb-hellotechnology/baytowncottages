@@ -1048,6 +1048,13 @@ main .property-search form select{
 	display:block;
 }
 
+#background-video{
+	width:100%;
+	aspect-ratio: 4 / 1;
+	display:block;
+	object-fit: cover;
+}
+
 /* COTTAGE HIGHLIGHTS */
 h1.center{
 	font-size:var(--size-step-1);

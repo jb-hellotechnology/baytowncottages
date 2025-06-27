@@ -576,17 +576,13 @@ class Simple_Calendars extends PerchAPI_Factory
 	  $sql = 'SELECT * FROM simple_calendar_accommodation_unit_pricing WHERE startDate<="'.$date.'" AND endDate>="'.$date.'" AND unitID="'.$data[0]['unitID'].'" ORDER BY startDate ASC';
 		$data = $this->db->get_rows($sql);
     
-    if(date('Y-m-d')<'2019-11-25'){
-      $today = '2019-11-25';
-    }else{
-      $today = date('Y-m-d');
-    }
+    $today = date('Y-m-d');
     
     $dates = explode("-",$date);
     $day = date("D", mktime(0, 0, 0, $dates[1], $dates[2], $dates[0]));
 
     $sql = 'SELECT * FROM simple_calendar_accommodation_bookings WHERE unitID="'.$data[0]['unitID'].'" AND startTime>="'.$date.'" ORDER BY startTime ASC LIMIT 1';
-		$bookingData = $this->db->get_rows($sql);
+	$bookingData = $this->db->get_rows($sql);
     $arrDates = explode(" ",$bookingData[0]['startTime']);
     $nextArrival = $arrDates[0];
     $nights = 0 - ((strtotime($date) - strtotime($nextArrival)) / 86400);
