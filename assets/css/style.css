@@ -1957,7 +1957,8 @@ ul.accordion li div{
 	display:none;
 }
 
-ul.accordion li div.active{
+ul.accordion li div.active,
+ul.accordion li div.active div{
 	display:block;
 	margin-block-start: var(--flow-space, 1em);
 }
