@@ -98,8 +98,7 @@
 			});
 			
 			$('ul.accordion li h3').click(function(){
-				console.log('click');
-				$(this).next('div').toggleClass('active');
+				$(this).next('div div').toggleClass('active');
 			});
 		});
 		Fancybox.bind("[data-fancybox]", {
