@@ -145,8 +145,8 @@
     echo $Form->text_field("minDiscount","Discount For Minimum Group Size - How Many People?",$unit['minDiscount']);
     echo $Form->text_field("discountPercentage","Minimum Group Size Discount Percentage",$unit['discountPercentage']);
     
-    echo $Form->text_field("minDiscount2","Secondary Discount For Minimum Group Size - How Many People?",$unit['minDiscount']);
-    echo $Form->text_field("discountPercentage2","Secondary Minimum Group Size Discount Percentage",$unit['discountPercentage']);
+    echo $Form->text_field("minDiscount2","Secondary Discount For Minimum Group Size - How Many People?",$unit['minDiscount2']);
+    echo $Form->text_field("discountPercentage2","Secondary Minimum Group Size Discount Percentage",$unit['discountPercentage2']);
     
     echo $Form->text_field("maxPets","Max Pets",$unit['maxPets']);
     
@@ -156,8 +156,22 @@
     echo $Form->select_field('freePets','Pets are Free?',$freePets,$unit['freePets']);
     
     echo $Form->select_field('singlePetCharge','Only Charge Once For Pet(s)?',$freePets,$unit['singlePetCharge']);
-		    
-		echo $Form->submit_field('btnSubmit', 'Update Unit', $API->app_path());
+	
+	echo $HTML->heading3('Owner &amp; Cleaner');
+	
+	echo $Form->text_field("ownerEmail","Owner Email",$unit['ownerEmail']);
+	$sendEmail[] = array('label'=>"Yes", 'value'=>'1');
+	$sendEmail[] = array('label'=>"No", 'value'=>'0');		    
+	echo $Form->select_field('sendOwnerEmail','Send Owner Confirmation Emails?',$sendEmail,$unit['sendOwnerEmail']);
+	
+	echo $Form->text_field("cleanerEmail","Cleaner Email",$unit['cleanerEmail']);	    
+	echo $Form->select_field('sendCleanerEmail','Send Cleaner Confirmation Emails?',$sendEmail,$unit['sendCleanerEmail']);
+	
+	echo $HTML->heading3('Email Details');
+	echo $Form->text_field("keyCode","Key Code",$unit['keyCode']);
+	echo $Form->textarea_field("carParking","Cottage Specifics",$unit['carParking']);
+	
+	echo $Form->submit_field('btnSubmit', 'Update Unit', $API->app_path());
 		
 		echo $Form->hidden('unitID', $_GET['id']);
 		

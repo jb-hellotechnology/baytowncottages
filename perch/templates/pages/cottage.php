@@ -22,24 +22,20 @@
 		    }else{
 			    PerchSystem::set_var('loggedin', 'no');
 		    }
-		    
+			
+			$reviewData = unitReviewData(perch_get('s'),$item[0]['cottageName'],$item[0]);
+			
+			PerchSystem::set_var('reviewsData', $reviewData);
+		   
 		    perch_collection('Cottages', [
 			    "filter"   => "slug",
 		        "match"    => "eq",
 		        "value"    => perch_get('s'),
 		    ]);
-		    
-		    $item = perch_collection('Cottages', [
-			   'field' => 'slug',
-			   'match' => 'eq',
-			   'value' => perch_get('s'),
-			   'count' => 1,
-			   'skip-template' => true,
-			]);
 			
 			$item_title = $item[0]['cottageName'].' - Sleeps '.$item[0]['cottageSleeps'].' in '.$item[0]['cottageLocation']; 
 			echo '<div class="row">';
-			unitReviews(perch_get('s'),$item[0]['cottageName']);
+			unitReviews(perch_get('s'),$item[0]['cottageName'],$item[0]);
 			echo '</div>';
 		?>
 	</div>
@@ -56,6 +52,27 @@ const options = {
 new Carousel(container, options);
 
 });
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+	"@type": "ListItem",
+	"position": 1,
+	"name": "Home",
+	"item": "https://baytownholidaycottages.co.uk"
+  },{
+	"@type": "ListItem",
+	"position": 2,
+	"name": "Accommodation",
+	"item": "https://baytownholidaycottages.co.uk/our-cottages"
+  },{
+	"@type": "ListItem",
+	"position": 3,
+	"name": "<?= $item[0]['cottageName'] ?>"
+  }]
+}
 </script>
 <?php
     perch_layout('global/footer');

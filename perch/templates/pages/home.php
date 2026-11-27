@@ -7,16 +7,16 @@
 <div class="hero">
 	<?php perch_content('Hero Image'); ?>
 </div>
-<div class="property-search">
+<!-- <div class="property-search">
 	<div class="restrict">
 		<button>Property Search</button>
 		<form method="get" action="/our-cottages">
 			<div>
 				<label for="location">Location</label>
 				<select name="location" id="location">
-					<option value="Lower Bay">Lower Bay</option>
-					<option value="Upper Bay" <?php if(strip_tags($_GET['location'])=='Upper Bay'){echo "SELECTED";} ?>>Upper Bay</option>
-					<option value="Whitby Area" <?php if(strip_tags($_GET['location'])=='Whitby Area'){echo "SELECTED";} ?>>Whitby Area</option>
+					<option value="Lower Robin Hood's Bay">Lower Bay</option>
+					<option value="Upper Robin Hood's Bay" <?php if(strip_tags($_GET['location'])=='Upper Robin Hood\'s Bay'){echo "SELECTED";} ?>>Upper Bay</option>
+					<option value="Fylingthorpe" <?php if(strip_tags($_GET['location'])=='Fylingthorpe'){echo "SELECTED";} ?>>Fylingthorpe</option>
 				</select>
 			</div>
 			<div>
@@ -40,6 +40,8 @@
 					<option value="8" <?php if(strip_tags($_GET['sleeps'])=='8'){echo "SELECTED";} ?>>8</option>
 			        <option value="9" <?php if(strip_tags($_GET['sleeps'])=='9'){echo "SELECTED";} ?>>9</option>
 			        <option value="10" <?php if(strip_tags($_GET['sleeps'])=='10'){echo "SELECTED";} ?>>10</option>
+					<option value="10" <?php if(strip_tags($_GET['sleeps'])=='11'){echo "SELECTED";} ?>>11</option>
+					<option value="10" <?php if(strip_tags($_GET['sleeps'])=='12'){echo "SELECTED";} ?>>12</option>
 				</select>
 			</div>
 			<div>
@@ -54,7 +56,7 @@
 			</div>
 		</form>
 	</div>
-</div>
+</div> -->
 <main>
 	<div class="row cottage-highlights">
 		<div class="restrict flow">	
@@ -76,7 +78,6 @@
 		</div>
 	</div>
 	<div class="restrict flow">
-		<?php //perch_content('Page Content'); ?>
 		<?php perch_content('Flexible Content'); ?>
 		<h2>Read the Baytown Blog</h2>
 		<?php  
@@ -88,6 +89,7 @@
 			    'template' => 'post_in_list.html'
 			));
 		?>
+		<?php //perch_content('Page Content'); ?>
 	</div>
 </main>
 <?php

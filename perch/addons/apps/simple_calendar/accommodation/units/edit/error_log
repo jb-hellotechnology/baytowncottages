@@ -18,3 +18,8 @@
 [18-Dec-2024 07:30:39 UTC] PHP Warning:  foreach() argument must be of type array|object, false given in /home/baytownholiday/public_html/perch/addons/apps/simple_calendar/modes/accommodation.editunit.post.php on line 81
 [28-Jan-2025 10:49:14 UTC] PHP Warning:  foreach() argument must be of type array|object, false given in /home/baytownholiday/public_html/perch/addons/apps/simple_calendar/modes/accommodation.editunit.post.php on line 81
 [28-Jan-2025 10:49:29 UTC] PHP Warning:  foreach() argument must be of type array|object, false given in /home/baytownholiday/public_html/perch/addons/apps/simple_calendar/modes/accommodation.editunit.post.php on line 81
+[16-Jul-2025 12:06:13 UTC] PHP Warning:  foreach() argument must be of type array|object, false given in /home/baytownholiday/public_html/perch/addons/apps/simple_calendar/modes/accommodation.editunit.post.php on line 81
+[16-Jul-2025 12:11:15 UTC] PHP Warning:  foreach() argument must be of type array|object, false given in /home/baytownholiday/public_html/perch/addons/apps/simple_calendar/modes/accommodation.editunit.post.php on line 81
+[04-Aug-2025 21:53:57 UTC] PHP Warning:  foreach() argument must be of type array|object, false given in /home/baytownholiday/public_html/perch/addons/apps/simple_calendar/modes/accommodation.editunit.post.php on line 81
+[04-Aug-2025 21:54:14 UTC] PHP Warning:  foreach() argument must be of type array|object, false given in /home/baytownholiday/public_html/perch/addons/apps/simple_calendar/modes/accommodation.editunit.post.php on line 81
+[04-Aug-2025 21:54:18 UTC] PHP Warning:  foreach() argument must be of type array|object, false given in /home/baytownholiday/public_html/perch/addons/apps/simple_calendar/modes/accommodation.editunit.post.php on line 81

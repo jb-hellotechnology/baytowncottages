@@ -2,7 +2,20 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.0/fullcalendar.min.css" />
 <link rel="stylesheet" href="/perch/addons/apps/simple_calendar/assets/fullcalendar-scheduler/scheduler.css" />
 
+<link rel="stylesheet" href="/perch/addons/apps/simple_calendar/assets/redactor/redactor.min.css" />
+<script src="/perch/addons/apps/simple_calendar/assets/redactor/redactor.min.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="/perch/addons/apps/simple_calendar/assets/moment.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.0/fullcalendar.min.js"></script>
 <script src='/perch/addons/apps/simple_calendar/assets/fullcalendar-scheduler/scheduler.js'></script>
+
+<script>
+$R("#content", { 
+  focus: true,
+  plugins: ['fontcolor'],
+	  fontcolors: [
+		  '#000', '#880000'
+	  ] 
+});
+</script>

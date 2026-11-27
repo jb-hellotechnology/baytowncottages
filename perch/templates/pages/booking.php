@@ -107,7 +107,7 @@
                 if($date=='12-24' OR $date=='12-25' OR $date=='12-26' OR $date=='12-31' OR $date=='01-01'){
                  //echo "<option disabled value=\"$i\">$i Nights</option>"; 
                 }else{
-                  echo "<option value=\"$i\">$i Nights (Depart on $depDate)</option>";  
+                  echo "<option value=\"$i\""; if($_GET['nights']==$i){echo " SELECTED";} echo ">$i Nights (Depart on $depDate)</option>";  
                 }
                 
               }
@@ -198,7 +198,7 @@
           
           echo "<div class=\"form_div\" id=\"options\">";
           echo "<h3>Options</h3>";
-          if($petfriendly=='Pet Friendly'){
+          if($petfriendly=='Dogs Welcome'){
 	          $i = 0;
 	          if($unitData['freePets']=='yes'){
 	          	echo '<label>This property can accommodate a maximum of '.$unitData['maxPets'].' pets. If you\'d like to bring a pet please select how many you\'ll bring. Pets are free.</label>';
@@ -339,6 +339,8 @@
               if ($('#payinfull').is(':checked')) {
                 var pPay = 'on';
               }
+              
+              console.log('Getting price...' + pNights + ' - ' + pAdults + ' - ' + pChildren);
               
               $.post( "/booking/get-price?r=" + Math.random(), { unit: "<?php echo $unit; ?>", arrival: "<?php echo $arrivalDate; ?>", nights: pNights, pet:pPet, pay:pPay, adults:pAdults, children:pChildren }).done(function( data ) {
                 $('#cost').html(data);

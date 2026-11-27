@@ -10,7 +10,13 @@
 			if(perch_member_logged_in()){
 		          
 		        echo '<h1 class="span">Welcome to Your Account</h1>';
-		        echo '<p><a href="/all-availability">Browse Availability &amp; Book</a></p>';
+				if(perch_member_has_tag('owner')){
+					owner_bookings(perch_member_get('email'));
+				}else if(perch_member_has_tag('cleaner')){
+					cleaner_bookings(perch_member_get('email'));
+				}else{
+		     	   echo '<p><a href="/all-availability">Browse Availability &amp; Book</a></p>';
+				}
 		        member_bookings(perch_member_get('memberID'));
 		        
 		    }
@@ -23,13 +29,10 @@
 			  if(perch_member_logged_in()){
 	            perch_member_form('profile.html');
 	            perch_member_form('password.html');
-	            
 	          }else{
-	            
 	            perch_member_form('register.html');
 	            perch_members_login_form();
 	            perch_member_form('reset_password.html');
-	
 	          }
 	          
 	        ?>

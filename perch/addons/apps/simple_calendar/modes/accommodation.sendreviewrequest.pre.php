@@ -22,7 +22,7 @@
 			
 		$to = $data['sendTo'];
 		$subject = $data['subject'];
-		$message = nl2br($data['content']);
+		$message = $data['content'];
 
 	    $headers = 'From: ' . $defaultEmail . "\r\n" .
 	    'X-Mailer: PHP/' . phpversion(); $header .= "\r\n";

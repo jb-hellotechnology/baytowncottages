@@ -25,8 +25,14 @@
 	
 	$Smartbar->add_item([
 	    'active' => false,
-	    'title' => 'Send Confirmation',
+	    'title' => 'Deposit Confirmation',
 	    'link'  => '/addons/apps/simple_calendar/accommodation/booking/send_confirmation/?id='.$_GET['id'],
+	]);
+	
+	$Smartbar->add_item([
+		'active' => false,
+		'title' => 'Full Payment Confirmation',
+		'link'  => '/addons/apps/simple_calendar/accommodation/booking/full_confirmation/?id='.$_GET['id'],
 	]);
 	
 	$Smartbar->add_item([

@@ -221,7 +221,7 @@
 			        
 			        $day = $i - $startday + 1;
 			        $curDate = date("Y-m-d", mktime(0, 0, 0, $month, $day, $year));
-              $curDate2 = date("m-d", mktime(0, 0, 0, $month, $day, $year));
+              	  	$curDate2 = date("m-d", mktime(0, 0, 0, $month, $day, $year));
 			        $thisDay = date("D", mktime(0, 0, 0, $month, $day, $year));
 			        
 			        $gapDate = date("Y-m-d", mktime(0, 0, 0, date('m'), date('d')+2, date('Y')));
@@ -244,21 +244,48 @@
               echo "$tabs\t\t<td></td>";
             }else{
 
-              $isArrival = $SimpleCalendar->isArrival($unit,$curDate);
-
-              if($isArrival==1 AND ($curDate2<>'12-24' AND $curDate2<>'12-25' AND $curDate2<>'12-26' AND $curDate2<>'12-31' AND $curDate2<>'01-01') AND $curDate>$gapDate){
-                $date_class = " class='ar'";
-                echo "$tabs\t\t
-                <td{$date_class}>
-                  <form method=\"post\" action=\"/booking?s=$unitData[slug]\">
-                  <input type=\"hidden\" name=\"arrivalDate\" value=\"$curDate\" />
-                  <input type=\"hidden\" name=\"unit\" value=\"$unit\" />
-                  <input type=\"submit\" value=\"". ($i - $startday + 1) . "\" />
-                  </form>
-                </td>";
-              }else{
-                echo "$tabs\t\t<td{$date_class}>". ($i - $startday + 1) . "</td>";
-              }
+               $isArrival = $SimpleCalendar->isArrival($unit,$curDate);
+			   
+			   $Users      = new PerchUsers;
+				 $CurrentUser = $Users->get_current_user();
+			   $isAdmin = is_object($CurrentUser)
+							&& $CurrentUser->logged_in()
+							&& $CurrentUser->userMasterAdmin();
+							
+				  if($isAdmin){
+					if ($isArrival == 1 AND ($curDate2 <> '12-24' AND $curDate2 <> '12-25' AND $curDate2 <> '12-26' AND $curDate2 <> '12-31' AND $curDate2 <> '01-01') AND $curDate > $gapDate) {
+						$date_class = " class='ar'";
+						$minNights  = $SimpleCalendar->getMinNights($unit, $curDate);
+						$maxNights  = $SimpleCalendar->getMaxNights($unit, $curDate);
+						echo "$tabs\t\t
+						<td{$date_class} data-min=\"$minNights\" data-max=\"$maxNights\">
+							<button class='cal-arrival-btn'
+									data-date='$curDate'
+									data-unit='$unit'
+									data-slug='{$unitData['slug']}'
+									type='button'>
+								" . ($i - $startday + 1) . "
+							</button>
+						</td>";
+					} else {
+						echo "$tabs\t\t<td{$date_class}>" . ($i - $startday + 1) . "</td>";
+					}
+				}else{
+			
+					if($isArrival==1 AND ($curDate2<>'12-24' AND $curDate2<>'12-25' AND $curDate2<>'12-26' AND $curDate2<>'12-31' AND $curDate2<>'01-01')){
+					$date_class = " class='ar'";
+					echo "$tabs\t\t
+					<td{$date_class}>
+						<form method=\"post\" action=\"/booking\">
+						<input type=\"hidden\" name=\"arrivalDate\" value=\"$curDate\" />
+						<input type=\"hidden\" name=\"unit\" value=\"$unit\" />
+						<input type=\"submit\" value=\"". ($i - $startday + 1) . "\" />
+						</form>
+					</td>";
+					}else{
+					echo "$tabs\t\t<td{$date_class}>". ($i - $startday + 1) . "</td>";
+					}
+				}
 
             }
             if(($i % 7) == 6 ){
@@ -373,19 +400,51 @@
 
               $isArrival = $SimpleCalendar->isArrival($unit,$curDate);
 
-              if($isArrival==1 AND ($curDate2<>'12-24' AND $curDate2<>'12-25' AND $curDate2<>'12-26' AND $curDate2<>'12-31' AND $curDate2<>'01-01') AND $curDate>$gapDate){
-                $date_class = " class='ar'";
-                echo "$tabs\t\t
-                <td{$date_class}>
-                  <form method=\"post\" action=\"/booking\">
-                  <input type=\"hidden\" name=\"arrivalDate\" value=\"$curDate\" />
-                  <input type=\"hidden\" name=\"unit\" value=\"$unit\" />
-                  <input type=\"submit\" value=\"". ($i - $startday + 1) . "\" />
-                  </form>
-                </td>";
-              }else{
-                echo "$tabs\t\t<td{$date_class}>". ($i - $startday + 1) . "</td>";
-              }
+			  $Users      = new PerchUsers;
+			  $CurrentUser = $Users->get_current_user();
+			  
+			  $isAdmin = is_object($CurrentUser)
+						 && $CurrentUser->logged_in()
+						 && $CurrentUser->userMasterAdmin();
+						 
+			   if($isAdmin){
+								  
+				  if ($isArrival == 1 AND ($curDate2 <> '12-24' AND $curDate2 <> '12-25' AND $curDate2 <> '12-26' AND $curDate2 <> '12-31' AND $curDate2 <> '01-01') AND $curDate > $gapDate) {
+					  $date_class = " class='ar'";
+					  $minNights  = $SimpleCalendar->getMinNights($unit, $curDate);
+					  $maxNights  = $SimpleCalendar->getMaxNights($unit, $curDate);
+					  echo "$tabs\t\t
+					  <td{$date_class} data-min=\"$minNights\" data-max=\"$maxNights\">
+						  <button class='cal-arrival-btn'
+								  data-date='$curDate'
+								  data-unit='$unit'
+								  data-slug='{$unitData['slug']}'
+								  type='button'>
+							  " . ($i - $startday + 1) . "
+						  </button>
+					  </td>";
+				  } else {
+					  echo "$tabs\t\t<td{$date_class}>" . ($i - $startday + 1) . "</td>";
+				  }
+				  
+			  }else{
+	
+				  if($isArrival==1 AND ($curDate2<>'12-24' AND $curDate2<>'12-25' AND $curDate2<>'12-26' AND $curDate2<>'12-31' AND $curDate2<>'01-01')){
+					  $date_class = " class='ar'";
+					  echo "$tabs\t\t
+					  <td{$date_class}>
+						<form method=\"post\" action=\"/booking\">
+						<input type=\"hidden\" name=\"arrivalDate\" value=\"$curDate\" />
+						<input type=\"hidden\" name=\"unit\" value=\"$unit\" />
+						<input type=\"submit\" value=\"". ($i - $startday + 1) . "\" />
+						</form>
+					  </td>";
+					}else{
+					  echo "$tabs\t\t<td{$date_class}>". ($i - $startday + 1) . "</td>";
+					}
+			  }
+
+              
 
             }
             if(($i % 7) == 6 ){
@@ -396,7 +455,10 @@
 					
 				}
 				
-			echo "$tabs<tr><td colspan='7'>Sleeps $unitData[maxOccupants]"; if($unitData['maxPets']>0){ echo " &bull; Pet Friendly";} echo "</td></table>";
+			echo "$tabs<tr><td colspan='7'>Sleeps $unitData[maxOccupants]"; if($unitData['maxPets']>0){ echo " &bull; Pet Friendly";} echo "</td></tr>
+			<tr>
+			  <td colspan='7' class='larger'><a class=\"button more-details\" href=\"/our-cottages/property?s=$unit\">More Details</a></td>
+			</tr></table>";
 			
 		echo '<script type="text/javascript">
 			function month(year,month){
@@ -614,16 +676,20 @@ function getPrice($nights,$unit,$arrival,$pet,$pay,$output,$adults,$children){
     }
     
     $partySize = $adults+$children;
+
+	if($partySize>0){
     
-    if($unitData['minDiscount2']>0 AND $partySize<=$unitData['minDiscount2'] AND $partySize>$unitData['minDiscount'] AND $unitData['discountPercentage2']>0 AND $dateData['discount']=='on' AND $partySize>0){
-	    $discount = (100-$unitData['discountPercentage2'])/100;
-	    $discountTotalPrice = $totalPrice*$discount;
-	    $totalPrice = $discountTotalPrice;
-    }elseif($unitData['minDiscount']>0 AND $partySize<=$unitData['minDiscount'] AND $unitData['discountPercentage']>0 AND $dateData['discount']=='on' AND $partySize>0){
-	    $discount = (100-$unitData['discountPercentage'])/100;
-	    $discountTotalPrice = $totalPrice*$discount;
-	    $totalPrice = $discountTotalPrice;
-    }
+		if($unitData['minDiscount2']>0 AND $partySize<=$unitData['minDiscount2'] AND $partySize>$unitData['minDiscount'] AND $unitData['discountPercentage2']>0 AND $dateData['discount']=='on' AND $partySize>0){
+			$discount = (100-$unitData['discountPercentage2'])/100;
+			$discountTotalPrice = $totalPrice*$discount;
+			$totalPrice = $discountTotalPrice;
+		}elseif($unitData['minDiscount']>0 AND $partySize<=$unitData['minDiscount'] AND $unitData['discountPercentage']>0 AND $dateData['discount']=='on' AND $partySize>0){
+			$discount = (100-$unitData['discountPercentage'])/100;
+			$discountTotalPrice = $totalPrice*$discount;
+			$totalPrice = $discountTotalPrice;
+		}
+	
+	}
 
 	if($unitData['singlePetCharge']=='yes' AND $pet>1){
 		$pet = 1;
@@ -882,7 +948,7 @@ function logreview($review){
 	
 }
 
-function unitReviews($slug,$cottagename){
+function unitReviews($slug,$cottagename,$cottageData){
 	
 	$API = new Simple_Calendars($API);
 	$SimpleCalendar = new Simple_Calendars($API);
@@ -891,21 +957,58 @@ function unitReviews($slug,$cottagename){
 	
 	$reviews = $SimpleCalendar->getReviews($unit['unitID']);
 	
-	if($reviews){
+	$totalRating = 0;
+	$bestRating = 0;
+	$worstRating = 5;
+	
+	if(count($reviews)>0){
 		echo '<div class="reviews-block flow"><h2>Reviews</h2>';
 		
 		foreach($reviews as $review){
+			
+			$totalRating = $totalRating + $review['rating'];
+			
 			echo '<div class="review"><p class="rating">';
 				if($review['rating']=='5'){
 					echo '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+					if($bestRating<5){
+						$bestRating = 5;
+					}
+					if($worstRating>=5){
+						$worstRating = 5;
+					}
 				}elseif($review['rating']=='4'){
 					echo '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+					if($bestRating<4){
+						$bestRating = 4;
+					}
+					if($worstRating>4){
+						$worstRating = 4;
+					}
 				}elseif($review['rating']=='3'){
 					echo '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+					if($bestRating<3){
+						$bestRating = 3;
+					}
+					if($worstRating>3){
+						$worstRating = 3;
+					}
 				}elseif($review['rating']=='2'){
 					echo '<i class="fa fa-star"></i><i class="fa fa-star"></i>';
+					if($bestRating<2){
+						$bestRating = 2;
+					}
+					if($worstRating>2){
+						$worstRating = 2;
+					}
 				}elseif($review['rating']=='1'){
 					echo '<i class="fa fa-star"></i>';
+					if($bestRating<=1){
+						$bestRating = 1;
+					}
+					if($worstRating>1){
+						$worstRating = 1;
+					}
 				}
 			echo '</p><p>'.$review['comments'].'</p></div>';
 		}
@@ -913,6 +1016,243 @@ function unitReviews($slug,$cottagename){
 		echo '</div>';
 	}
 	
+	if($reviews){
+		$averageRating = $totalRating / count($reviews);
+		$averageRating = number_format($averageRating, 1);
+	}
+	
+	echo '<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org/",
+	  "@type": "LocalBusiness",
+      "image": "https://baytownholidaycottages.co.uk'.$cottageData['mainImage'].'",
+	  "name": "'.$unit['name'].'",
+	  "telephone": "+447703457229",
+	  "description": "Holiday cottage in Robin Hood\'s Bay. Sleeps '.$unit['maxOccupants'].'",
+	  "address": {
+		  "@type": "PostalAddress",
+		  "streetAddress": "'.$cottageData['streetAddress'].'",
+		  "addressLocality": "Robin Hood\'s Bay",
+		  "addressRegion": "North Yorkshire",
+		  "postalCode": "'.$cottageData['postCode'].'",
+		  "addressCountry": "GB"
+		},
+	  "aggregateRating": {
+		"@type": "AggregateRating",
+		"ratingValue": "'.$averageRating.'",
+		"bestRating": "'.$bestRating.'",
+		"ratingCount": "'.count($reviews).'"
+	  }
+	}
+	</script>';
+	
+	echo '<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "LodgingBusiness",
+	  "name": "'.$unit['name'].'",
+	  "description": "Holiday cottage in Robin Hood\'s Bay. Sleeps '.$unit['maxOccupants'].'",
+	  "image": "https://baytownholidaycottages.co.uk'.$cottageData['mainImage'].'",
+	  "address": {
+		"@type": "PostalAddress",
+		"streetAddress": "'.$cottageData['streetAddress'].'",
+		"addressLocality": "Robin Hood\'s Bay",
+		"addressRegion": "North Yorkshire",
+		"postalCode": "'.$cottageData['postCode'].'",
+		"addressCountry": "GB"
+	  },
+	  "telephone": "+447703457229",
+	  "priceRange": "££",
+	  "aggregateRating": {
+		"@type": "AggregateRating",
+		"ratingValue": "'.$averageRating.'",
+		"reviewCount": "'.count($reviews).'",
+		"bestRating": "'.$bestRating.'",
+		"worstRating": "'.$worstRating.'"
+	  },
+	  "review": [';
+	  $i = 0;
+	  $totalReviews = count($reviews);
+	  
+	  foreach($reviews as $review){
+		  $member = $SimpleCalendar->customerByEmail($review['emailAddress']);
+		  
+		  	$first_name = 'James';
+			$last_name = 'Smith';
+		  
+			  $memberData = json_decode($member['memberProperties'], true);
+			  if($memberData['first_name']){
+			    $first_name = $memberData['first_name'];
+			    $last_name = $memberData['last_name'];
+		  	  }
+			  
+			  echo '{
+				"@type": "Review",
+				"author": {
+				  "@type": "Person",
+				  "name": "'.$first_name.' '.$last_name.'"
+				},
+				"datePublished": "'.$review['timestamp'].'",
+				"reviewBody": "'.$review['comments'].'",
+				"reviewRating": {
+				  "@type": "Rating",
+				  "ratingValue": "'.$review['rating'].'",
+				  "bestRating": "'.$bestRating.'",
+				  "worstRating": "'.$worstRating.'"
+				}
+			  }';
+		  
+		  if($i < $totalReviews-1){
+				echo ',';
+			}
+		  $i++;
+	  
+  }echo ']
+	}
+	</script>';
+	
+}
+
+function unitReviewData($slug,$cottagename,$cottageData){
+	
+	$API = new Simple_Calendars($API);
+	$SimpleCalendar = new Simple_Calendars($API);
+	
+	$unit = $SimpleCalendar->unitbySlug($slug,'');
+	
+	$reviews = $SimpleCalendar->getReviews($unit['unitID']);
+	
+	$totalRating = 0;
+	$bestRating = 0;
+	$worstRating = 5;
+	
+	if($reviews){
+		foreach($reviews as $review){
+			$totalRating += $review['rating'];
+			$bestRating = max($bestRating, $review['rating']);
+			$worstRating = min($worstRating, $review['rating']);
+		}
+		
+		$averageRating = number_format($totalRating / count($reviews), 1);
+	}
+	
+	$data = '';
+	$i = 1;
+	$totalReviews = count($reviews);
+	
+	foreach($reviews as $review){
+		$member = $SimpleCalendar->customerByEmail($review['emailAddress']);
+		
+			$first_name = 'James';
+			$last_name = 'Smith';
+			
+			$memberData = json_decode($member['memberProperties'], true);
+			if($memberData['first_name']){
+				$first_name = $memberData['first_name'];
+				$last_name = $memberData['last_name'];
+			}
+			
+			$data .= '{
+				"@type": "Review",
+				"author": {
+				"@type": "Person",
+				"name": "'.$first_name.' '.$last_name.'"
+				},
+			  "datePublished": "'.$review['timestamp'].'",
+			  "reviewBody": "'.$review['comments'].'",
+			  "reviewRating": {
+				"@type": "Rating",
+				"ratingValue": "'.$review['rating'].'",
+				"bestRating": "'.$bestRating.'",
+				"worstRating": "'.$worstRating.'"
+			  }
+			}';
+
+		if($i < $totalReviews){
+			$data .= ',';
+		}
+		$i++;
+	}
+	
+	return $data;
+  
+	
+}
+
+function owner_bookings($email){
+	$API = new Simple_Calendars($API);
+	$SimpleCalendar = new Simple_Calendars($API);
+	
+	$future = $SimpleCalendar->owner_bookings($email, 'future');
+	$past = $SimpleCalendar->owner_bookings($email, 'past');
+	
+	if($future){
+		echo "<h2>Future Bookings For Your Property</h2><table><tr><th>Cottage</th><th>Arrival</th><th>Departure</th></tr>";
+		foreach($future as $booking){
+			$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
+			$starts = explode(" ", $booking['startTime']);
+			$starts = explode("-",$starts[0]);
+			$start = "$starts[2]/$starts[1]/$starts[0]";
+			$ends = explode(" ", $booking['endTime']);
+			$ends = explode("-",$ends[0]);
+			$end = "$ends[2]/$ends[1]/$ends[0]";
+			echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
+		}
+		echo "</table>";
+	}
+	
+	// if($past){
+	// 	echo "<h2>Past Bookings</h2><table><tr><th>Cottage</th><th>Arrival</th><th>Departure</th></tr>";
+	// 	foreach($past as $booking){
+	// 		$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
+	// 		$starts = explode(" ", $booking['startTime']);
+	// 		$starts = explode("-",$starts[0]);
+	// 		$start = "$starts[2]/$starts[1]/$starts[0]";
+	// 		$ends = explode(" ", $booking['endTime']);
+	// 		$ends = explode("-",$ends[0]);
+	// 		$end = "$ends[2]/$ends[1]/$ends[0]";
+	// 		echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
+	// 	}
+	// 	echo "</table>";
+	// }
+}
+
+function cleaner_bookings($email){
+	$API = new Simple_Calendars($API);
+	$SimpleCalendar = new Simple_Calendars($API);
+	
+	$future = $SimpleCalendar->cleaner_bookings($email, 'future');
+	$past = $SimpleCalendar->cleaner_bookings($email, 'past');
+
+	if($future){
+		echo "<h2>Future Bookings Requiring Changeover</h2><table><tr><th>Cottage</th><th>Arrival</th><th>Departure</th></tr>";
+		foreach($future as $booking){
+			$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
+			$starts = explode(" ", $booking['startTime']);
+			$starts = explode("-",$starts[0]);
+			$start = "$starts[2]/$starts[1]/$starts[0]";
+			$ends = explode(" ", $booking['endTime']);
+			$ends = explode("-",$ends[0]);
+			$end = "$ends[2]/$ends[1]/$ends[0]";
+			echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
+		}
+		echo "</table>";
+	}
+	
+	// if($past){
+	// 	echo "<h2>Past Bookings</h2><table><tr><th>Cottage</th><th>Arrival</th><th>Departure</th></tr>";
+	// 	foreach($past as $booking){
+	// 		$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
+	// 		$starts = explode(" ", $booking['startTime']);
+	// 		$starts = explode("-",$starts[0]);
+	// 		$start = "$starts[2]/$starts[1]/$starts[0]";
+	// 		$ends = explode(" ", $booking['endTime']);
+	// 		$ends = explode("-",$ends[0]);
+	// 		$end = "$ends[2]/$ends[1]/$ends[0]";
+	// 		echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
+	// 	}
+	// 	echo "</table>";
+	// }
 }
 
 function member_bookings($id){
@@ -923,7 +1263,7 @@ function member_bookings($id){
 	$past = $SimpleCalendar->member_past_bookings($id);
 	
 	if($future){
-		echo "<h2>Your Future Bookings</h2><ul>";
+		echo "<h2>Your Future Bookings</h2><table><tr><th>Cottage</th><th>Arrival</th><th>Departure</th><th>Cost</th><th>Balance</th></tr>";
 		foreach($future as $booking){
 			$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
 			$starts = explode(" ", $booking['startTime']);
@@ -932,13 +1272,28 @@ function member_bookings($id){
 			$ends = explode(" ", $booking['endTime']);
 			$ends = explode("-",$ends[0]);
 			$end = "$ends[2]/$ends[1]/$ends[0]";
-			echo "<li><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a> | ".$start." - ".$end."</li>";
+			$balance = $booking['cost'] - $booking['paid'];
+			echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td><td>&pound;".$booking['cost']."</td><td>";
+			if($balance > 0){
+				$stripeBalance = $balance*100;
+				$name = "Balance payment for ".$unit['name'].", ".$start." - ".$end;
+				echo '<form method="POST" action="/booking/balance-stripe">
+				<input type="submit" value="Pay &pound;'.$balance.'" />
+				<input type="hidden" value="'.$stripeBalance.'" name="price" />
+				<input type="hidden" value="'.$name.'" name="name" />
+				<input type="hidden" value="'.$booking['bookingID'].'" name="bookingID" />
+				<input type="hidden" value="'.perch_member_get('email').'" name="email" />
+				</form>';
+			}else{
+				echo "<span class='paid'>PAID</span>";
+			}
+			echo "</td></tr>";
 		}
-		echo "</ul>";
+		echo "</table>";
 	}
 	
 	if($past){
-		echo "<h2>Your Past Bookings</h2><ul>";
+		echo "<h2>Your Past Bookings</h2><table><tr><th>Cottage</th><th>Arrival</th><th>Departure</th><th>Cost</th><th>Balance</th></tr>";
 		foreach($past as $booking){
 			$unit = $SimpleCalendar->getAccSingleUnit($booking['unitID']);
 			$starts = explode(" ", $booking['startTime']);
@@ -947,11 +1302,26 @@ function member_bookings($id){
 			$ends = explode(" ", $booking['endTime']);
 			$ends = explode("-",$ends[0]);
 			$end = "$ends[2]/$ends[1]/$ends[0]";
+			$balance = $booking['cost'] - $booking['paid'];
 			if($unit['name']){
-				echo "<li><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a> | ".$start." - ".$end."</li>";
+				echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td><td>&pound;".$booking['cost']."</td><td>";
+				if($balance > 0){
+					$stripeBalance = $balance*100;
+					$name = "Balance payment for ".$unit['name'].", ".$start." - ".$end;
+					echo '<form method="POST" action="/booking/balance-stripe">
+					<input type="submit" value="Pay &pound;'.$balance.'" />
+					<input type="hidden" value="'.$stripeBalance.'" name="price" />
+					<input type="hidden" value="'.$name.'" name="name" />
+					<input type="hidden" value="'.$booking['bookingID'].'" name="bookingID" />
+					<input type="hidden" value="'.perch_member_get('email').'" name="email" />
+					</form>';
+				}else{
+					echo "<span class='paid'>PAID</span>";
+				}
+				echo "</td></tr>";
 			}
 		}
-		echo "</ul>";
+		echo "</table>";
 	}
 }
 
@@ -969,6 +1339,13 @@ function record_payment($reference, $payment){
 	$SimpleCalendar->recordPayment($reference, $payment);
 }
 
+function record_balance_payment($reference, $payment){
+	$API = new Simple_Calendars($API);
+	$SimpleCalendar = new Simple_Calendars($API);
+	  
+	$SimpleCalendar->recordBalancePayment($reference, $payment);
+}
+
 function send_confirmation($reference){
 	
 	$API = new Simple_Calendars($API);
@@ -981,7 +1358,6 @@ function send_confirmation($reference){
 	$customerData = $SimpleCalendar->customer($booking['customerID']);
 	$unitData = $SimpleCalendar->unit($booking['unitID'],'');
 	$memberDetails = json_decode($customerData['memberProperties'],true);
-	$emailData = $SimpleCalendar->getEmail(1);
 	
 	$arrivalDates = explode(" ",$booking['startTime']);
 	$arrivalDates = explode("-",$arrivalDates[0]);
@@ -1001,8 +1377,45 @@ function send_confirmation($reference){
 	$diff = strtotime($departureDates[0]) - strtotime($arrivalDates[0]);
 	$nights = $diff/86400;
 	
-	$placeHolders = array("{{unitName}}","{{bookingID}}","{{memberName}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingPaid}}");
-	$emailContent = array($unitData['name'],"#".$booking['bookingID'],$memberDetails['first_name'],$arrivalFull,$departureFull,$nights,$booking['cost'],$booking['paid']);
+	$balance = $booking['cost'] - $booking['paid'];
+	if($balance == 0){
+		$emailData = $SimpleCalendar->getEmail(1);
+	}else{
+		$emailData = $SimpleCalendar->getEmail(1);
+	}
+	
+	// Create DateTime object from the input date
+	$date = new DateTime($arrivalDates[0]);
+	$date->modify('-6 weeks');
+	$balanceDue = $date->format('l jS \of F Y');
+	
+	$result = [
+		'adults' => null,
+		'children' => null,
+		'pets' => null
+	];
+	
+	// Extract Adults
+	if (preg_match('/Adults:\s*(\d+)/', $booking['notes'], $matches)) {
+		$result['adults'] = (int)$matches[1];
+	}
+	
+	// Extract Children
+	if (preg_match('/Children:\s*(\d+)/', $booking['notes'], $matches)) {
+		$result['children'] = (int)$matches[1];
+	}
+	
+	// Extract Pets - handles "Yes - 1", "No", "Yes", etc.
+	if (preg_match('/Pets:\s*Yes\s*-\s*(\d+)/i', $booking['notes'], $matches)) {
+		$result['pets'] = (int)$matches[1];
+	} elseif (preg_match('/Pets:\s*No/i', $booking['notes'])) {
+		$result['pets'] = 0;
+	} elseif (preg_match('/Pets:\s*Yes/i', $booking['notes'])) {
+		$result['pets'] = 1; // Assume 1 if just "Yes"
+	}
+	
+	$placeHolders = array("{{unitName}}","{{today}}","{{bookingID}}","{{memberName}}","{{memberAddress}}","{{memberTelephone}}","{{memberEmail}}","{{bookingAdults}}","{{bookingChildren}}","{{bookingPets}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingDeposit}}","{{paymentMethod}}","{{bookingPaid}}","{{bookingBalance}}","{{balanceDue}}","{{propertyDetails}}","{{keySafe}}");
+	$emailContent = array($unitData['name'],date('d/m/Y'),"#".$booking['bookingID'],$memberDetails['first_name'],$memberDetails['address_1'].', '.$memberDetails['address_2'].', '.$memberDetails['address_3'].', '.$memberDetails['post_code'],$memberDetails['mobile'],$customerData['memberEmail'],$result['adults'],$result['children'],$result['pets'],$arrivalFull,$departureFull,$nights,$booking['cost'],$booking['paid'],'Card',$booking['paid'],$balance,$balanceDue,$unitData['carParking'],$unitData['keyCode']);
 	
 	$subject = str_replace(
 	$placeHolders,
@@ -1019,7 +1432,102 @@ function send_confirmation($reference){
 	// SEND EMAIL
 	
 	  $to = $customerData['memberEmail'];
-	  $message = nl2br($message);
+	  //$message = nl2br($message);
+	
+	  $headers = 'From: ' . $defaultEmail . "\r\n" .
+	  'X-Mailer: PHP/' . phpversion(); $header .= "\r\n";
+	  $headers .= 'MIME-Version: 1.0' . "\r\n";
+	  $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	  $headers .= 'Cc: info@baytownholidaycottages.co.uk' . "\r\n";
+	
+	  mail($to, $subject, $message, $headers);
+		
+}
+
+function send_balance_confirmation($reference){
+	
+	$API = new Simple_Calendars($API);
+	$SimpleCalendar = new Simple_Calendars($API);
+
+	$defaultEmail = 'info@baytownholidaycottages.co.uk';
+	
+	$booking = $SimpleCalendar->booking($reference, false);
+	
+	$customerData = $SimpleCalendar->customer($booking['customerID']);
+	$unitData = $SimpleCalendar->unit($booking['unitID'],'');
+	$memberDetails = json_decode($customerData['memberProperties'],true);
+	
+	$arrivalDates = explode(" ",$booking['startTime']);
+	$arrivalDates = explode("-",$arrivalDates[0]);
+	$arrival = "$arrivalDates[2]/$arrivalDates[1]/$arrivalDates[0]";
+	
+	$arrivalFull = date("l jS \of F Y", mktime(0, 0, 0, $arrivalDates[1], $arrivalDates[2], $arrivalDates[0]));
+	
+	$departureDates = explode(" ",$booking['endTime']);
+	$departureDates = explode("-",$departureDates[0]);
+	$departure = "$departureDates[2]/$departureDates[1]/$departureDates[0]";
+	
+	$departureFull = date("l jS \of F Y", mktime(0, 0, 0, $departureDates[1], $departureDates[2], $departureDates[0]));
+	
+	$arrivalDates = explode(" ",$booking['startTime']);
+	$departureDates = explode(" ",$booking['endTime']);
+	
+	$diff = strtotime($departureDates[0]) - strtotime($arrivalDates[0]);
+	$nights = $diff/86400;
+	
+	$balance = $booking['cost'] - $booking['paid'];
+	
+	$emailData = $SimpleCalendar->getEmail(7);
+	
+	// Create DateTime object from the input date
+	$date = new DateTime($arrivalDates[0]);
+	$date->modify('-6 weeks');
+	$balanceDue = $date->format('l jS \of F Y');
+	
+	$result = [
+		'adults' => null,
+		'children' => null,
+		'pets' => null
+	];
+	
+	// Extract Adults
+	if (preg_match('/Adults:\s*(\d+)/', $booking['notes'], $matches)) {
+		$result['adults'] = (int)$matches[1];
+	}
+	
+	// Extract Children
+	if (preg_match('/Children:\s*(\d+)/', $booking['notes'], $matches)) {
+		$result['children'] = (int)$matches[1];
+	}
+	
+	// Extract Pets - handles "Yes - 1", "No", "Yes", etc.
+	if (preg_match('/Pets:\s*Yes\s*-\s*(\d+)/i', $booking['notes'], $matches)) {
+		$result['pets'] = (int)$matches[1];
+	} elseif (preg_match('/Pets:\s*No/i', $booking['notes'])) {
+		$result['pets'] = 0;
+	} elseif (preg_match('/Pets:\s*Yes/i', $booking['notes'])) {
+		$result['pets'] = 1; // Assume 1 if just "Yes"
+	}
+	
+	$placeHolders = array("{{unitName}}","{{today}}","{{bookingID}}","{{memberName}}","{{memberAddress}}","{{memberTelephone}}","{{memberEmail}}","{{bookingAdults}}","{{bookingChildren}}","{{bookingPets}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingDeposit}}","{{paymentMethod}}","{{bookingPaid}}","{{bookingBalance}}","{{balanceDue}}","{{propertyDetails}}","{{keySafe}}");
+	$emailContent = array($unitData['name'],date('d/m/Y'),"#".$booking['bookingID'],$memberDetails['first_name'],$memberDetails['address_1'].', '.$memberDetails['address_2'].', '.$memberDetails['address_3'].', '.$memberDetails['post_code'],$memberDetails['mobile'],$customerData['memberEmail'],$result['adults'],$result['children'],$result['pets'],$arrivalFull,$departureFull,$nights,$booking['cost'],$booking['paid'],'Card',$booking['paid'],$balance,$balanceDue,$unitData['carParking'],$unitData['keyCode']);
+	
+	$subject = str_replace(
+	$placeHolders,
+	$emailContent,
+	$emailData['subject']
+	);
+	
+	$message = str_replace(
+	$placeHolders,
+	$emailContent,
+	$emailData['content']
+	);
+
+	// SEND EMAIL
+	
+	  $to = $customerData['memberEmail'];
+	  //$message = nl2br($message);
 	
 	  $headers = 'From: ' . $defaultEmail . "\r\n" .
 	  'X-Mailer: PHP/' . phpversion(); $header .= "\r\n";
@@ -1042,4 +1550,66 @@ function latest_booking($id){
 		echo "<div class='well'><h2>Booking Details</h2><br /><h3>".$unit['name']."</h3><p>".nl2br($booking['notes'])."</p></div>";
 	}
 	
+}
+
+function get_available_cottages_runtime($cottage_slugs, $arrival, $nights){
+	$SimpleCalendar = new Simple_Calendars($API);
+	
+	$unitData = $SimpleCalendar->getAvailableSlugs($cottage_slugs, $arrival, $nights);
+	return $unitData;
+}
+
+function cottage_ical($cottage) {
+	
+	$SimpleCalendar = new Simple_Calendars($API);
+	
+	if (empty($cottage)) {
+		http_response_code(400);
+		exit;
+	}
+
+	// ── TODO: replace this with your actual booking query ──────────────
+	// $bookings should be an array of arrays, each with:
+	//   'start' => 'YYYY-MM-DD'  (check-in date)
+	//   'end'   => 'YYYY-MM-DD'  (check-out date)
+	//   'label' => 'Booked'      (optional summary text)
+	$bookings = $SimpleCalendar->get_cottage_bookings($cottage);
+	// ───────────────────────────────────────────────────────────────────
+
+	// Output iCal headers
+	header('Content-Type: text/calendar; charset=utf-8');
+	header('Content-Disposition: inline; filename="' . $cottage . '.ics"');
+	header('Cache-Control: no-cache, must-revalidate');
+
+	// Build iCal output
+	$lines = [
+		'BEGIN:VCALENDAR',
+		'VERSION:2.0',
+		'PRODID:-//Baytown Holiday Cottages//Cottage Availability//EN',
+		'CALSCALE:GREGORIAN',
+		'METHOD:PUBLISH',
+		'X-WR-CALNAME:' . $cottage,
+	];
+
+	foreach ($bookings as $booking) {
+		$uid   = md5($cottage . $booking['start'] . $booking['end']) . '@baytownholidaycottages.co.uk';
+		$start = date('Ymd', strtotime($booking['start']));
+		$end   = date('Ymd', strtotime($booking['end']));
+		$label = $booking['label'] ?? 'Booked';
+		$stamp = gmdate('Ymd\THis\Z');
+
+		$lines[] = 'BEGIN:VEVENT';
+		$lines[] = 'UID:' . $uid;
+		$lines[] = 'DTSTAMP:' . $stamp;
+		$lines[] = 'DTSTART;VALUE=DATE:' . $start;
+		$lines[] = 'DTEND;VALUE=DATE:' . $end;
+		$lines[] = 'SUMMARY:' . $label;
+		$lines[] = 'TRANSP:OPAQUE';
+		$lines[] = 'END:VEVENT';
+	}
+
+	$lines[] = 'END:VCALENDAR';
+
+	echo implode("\r\n", $lines) . "\r\n";
+	exit;
 }

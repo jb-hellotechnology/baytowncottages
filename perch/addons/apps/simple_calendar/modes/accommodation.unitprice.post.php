@@ -71,8 +71,13 @@
 			$staylist[] = array('label'=>"7", 'value'=>'7');
 		    echo $Form->select_field('minStay','Min. Stay',$staylist);
 		    
-		    $changelist[] = array('label'=>"Sat - Sat", 'value'=>'Sat - Sat');
 		    $changelist[] = array('label'=>"Fri - Fri", 'value'=>'Fri - Fri');
+			$changelist[] = array('label'=>"Sat - Sat", 'value'=>'Sat - Sat');
+			$changelist[] = array('label'=>"Sun - Sun", 'value'=>'Sun - Sun');
+			$changelist[] = array('label'=>"Mon - Mon", 'value'=>'Mon - Mon');
+			$changelist[] = array('label'=>"Tue - Tue", 'value'=>'Tue - Tue');
+			$changelist[] = array('label'=>"Wed - Wed", 'value'=>'Wed - Wed');
+			$changelist[] = array('label'=>"Thu - Thu", 'value'=>'Thu - Thu');
 		    $changelist[] = array('label'=>"Fri/Mon", 'value'=>'Fri/Mon');
 			$changelist[] = array('label'=>"Sat/Tue", 'value'=>'Sat/Tue');
 		    $changelist[] = array('label'=>"Any Day", 'value'=>'Any Day');

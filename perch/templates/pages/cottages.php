@@ -2,16 +2,16 @@
 	perch_layout('global/header');
 ?>
 <main>
-	<div class="property-search">
+	<!-- <div class="property-search">
 		<div class="restrict">
 			<button>Property Search</button>
 			<form method="get" action="/our-cottages">
 				<div>
 					<label for="location">Location</label>
 					<select name="location" id="location">
-						<option value="Lower Bay">Lower Bay</option>
-						<option value="Upper Bay" <?php if(strip_tags($_GET['location'])=='Upper Bay'){echo "SELECTED";} ?>>Upper Bay</option>
-						<option value="Whitby Area" <?php if(strip_tags($_GET['location'])=='Whitby Area'){echo "SELECTED";} ?>>Whitby Area</option>
+						<option value="Lower Robin Hood's Bay">Lower Bay</option>
+						<option value="Upper Robin Hood's Bay" <?php if(strip_tags($_GET['location'])=='Upper Robin Hood\'s Bay'){echo "SELECTED";} ?>>Upper Bay</option>
+						<option value="Fylingthorpe" <?php if(strip_tags($_GET['location'])=='Fylingthorpe'){echo "SELECTED";} ?>>Fylingthorpe</option>
 					</select>
 				</div>
 				<div>
@@ -49,7 +49,7 @@
 				</div>
 			</form>
 		</div>
-	</div>
+	</div> -->
 	<div class="restrict flow padding-top">
 		<?php
 			
@@ -70,18 +70,18 @@
 			
 			if($petfriendly=='on'){
 				$pet_eq = 'eq';
-				$pet_val = "Pet Friendly";
+				$pet_val = "Dogs Welcome";
 			}else{
 				$pet_eq = 'in';
-				$pet_val = "Pet Friendly, ";
+				$pet_val = "Dogs Welcome, ";
 			}
 			
 			if($parking=='on'){
 				$park_eq = 'eq';
-				$park_val = "Parking Permit";
+				$park_val = "parkingpermit";
 			}else{
 				$park_eq = 'in';
-				$park_val = "Parking Permit, ";
+				$park_val = "parkingpermit, ";
 			}
 			
 			if($price=='' OR $location=='' OR $sleeps==''){
@@ -101,18 +101,15 @@
 
 		    }else{
 			    
-			    if($location=='Lower Bay'){
+			    if($location=='Lower Robin Hood\'s Bay'){
 				    echo '<h2>Our Cottages in Lower Robin Hood\'s Bay</h2>';
-			    }elseif($location=='Upper Bay'){
+			    }elseif($location=='Upper Robin Hood\'s Bay'){
 				    echo '<h2>Our Cottages in Upper Robin Hood\'s Bay</h2>';
-			    }elseif($location=='Whitby Area'){
-				    echo '<h2>Our Cottages in the Surrounding Area</h2>';
+			    }elseif($location=='Fylingthorpe'){
+				    echo '<h2>Our Cottages in Fylingthorpe</h2>';
 			    }
-			    
-			   
-			    
 			    if($price=='ASC' OR $price=='DESC'){
-			    
+
 				    perch_collection('Cottages', [
 						'template'   =>'cottages/browse.html',
 						'filter'=>array(
@@ -131,11 +128,11 @@
 					            'match'=>$wifi_eq,
 								'value'=>$wifi_val
 					        ),
-					        array(
-					            'filter'=>'petfriendly',
-					            'match'=>$pet_eq,
+							array(
+								'filter'=>'petfriendly',
+								'match'=>$pet_eq,
 								'value'=>$pet_val
-					        ),
+							),
 					        array(
 					            'filter'=>'parkingpermit',
 					            'match'=>$park_eq,

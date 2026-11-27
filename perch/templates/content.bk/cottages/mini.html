@@ -1,0 +1,29 @@
+<section class="cottage mini">
+	<section class="title">
+			<h2><span>You're staying in</span><br />
+				<perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" /><br />
+				<span>from <perch:content id="arrival" /></span></h2>
+	</section>
+	<a href="/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" />" target="_blank">
+		<img src="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />" alt="<perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" />" />
+	</a>
+	<section class="text">
+		<ul class="facilities">
+			<perch:if exists="cottageSleeps">
+				<li class="sleeps">Sleeps <perch:content id="cottageSleeps" type="text" label="Sleeps" required="true" /></li>
+			</perch:if>
+			<perch:if exists="cottageLocation">
+				<li class="location"><perch:content id="cottageLocation" type="select" label="Location" options="Lower Robin Hood's Bay, Upper Robin Hood's Bay, Whitby Area" allowempty="false" required="true" /></li>
+			</perch:if>
+			<perch:if exists="wifi">
+				<li class="wifi"><perch:content id="wifi" type="checkbox" label="WiFi" value="WiFi" /></li>
+			</perch:if>
+			<perch:if exists="parkingpermit">
+				<li class="parking">Parking</li>
+			</perch:if>
+			<perch:if exists="petfriendly">
+				<li class="pets">Pet Friendly</li>
+			</perch:if>
+		</ul>
+	</section>
+</section>

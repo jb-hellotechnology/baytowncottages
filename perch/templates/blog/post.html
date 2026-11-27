@@ -15,8 +15,102 @@
     </perch:if>
     <div class="description e-content flow">
     	<perch:blog id="postDescHTML" type="textarea" label="Post" order="2" editor="redactor" html="true" size="xxl autowidth" required="true" width="800px" height="800px" />
+        <perch:blocks order="3" divider-before="Blocks - Creative Layout Options">
+            <perch:block type="text" label="Textarea">
+                <div class="textarea flow <perch:blog type="select" options="standard,columns" label="Layout" id="layout" />">
+                    <perch:blog type="textarea" label="Textarea" id="textarea" editor="redactor" html="true" width="800px" height="800px" />
+                </div>
+            </perch:block>
+            <perch:block type="accordion" label="Accordion">
+                <div class="accordion">
+                    <h2><perch:blog id="heading" label="Heading" type="text" /></h2>
+                    <ul class="accordion">
+                    <perch:repeater id="items" label="Items">
+                        <li itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <h3 itemprop="name"><perch:blog type="text" id="heading" label="Heading" /></h3>
+                            <div class="flow" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <div itemprop="text">
+                                    <perch:blog type="textarea" id="content" label="Content" editor="redactor" html />
+                                </div>
+                            </div>
+                        </li>
+                    </perch:repeater>
+                    </ul>
+                </div>
+                <script type="application/ld+json">
+                {
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    <perch:repeater id="items" label="Items">{
+                        "@type": "Question",
+                        "name": "<perch:blog type="text" id="heading" label="Heading" />",
+                        "acceptedAnswer": {
+                          "@type": "Answer",
+                          "text": "<perch:blog type="textarea" id="content" label="Content" editor="redactor" html />"
+                        }
+                    }<perch:if id="perch_item_last" value="false" match="eq">,</perch:if></perch:repeater>
+                  ]
+                }
+                </script>
+            </perch:block>
+            <perch:block type="gallery" label="Gallery">
+                <div class="gallery">
+                    <h2><perch:blog id="heading" label="Heading" type="text" /></h2>
+                    <ul>
+                    <perch:repeater id="images" label="Images">
+                        <li><a data-fancybox="gallery" href="<perch:blog type="image" label="Image" id="image" width="1280" />"><img src="<perch:blog type="image" label="Image" id="image" width="400" height="400" crop="true" />" alt="Holiday Cottages in Robin Hoods Bay" loading="lazy"></a></li>
+                    </perch:repeater>
+                    </ul>
+                </div>
+            </perch:block>
+            <perch:block type="highlight" label="Highlight">
+                <div class="highlight">
+                    <div class="text flow">
+                        <perch:blog id="text" type="textarea" label="Text" html="true" editor="redactor" imagewidth="640" imageheight="480" />
+                    </div>
+                    <img src="<perch:blog type="image" label="Image" id="image" width="768" />" alt="Holiday Cottages in Robin Hoods Bay" loading="lazy">
+                </div>
+            </perch:block>
+            <perch:block type="cards" label="Cards">
+                <div class="cards">
+                    <perch:repeater id="cards" label="Cards">
+                        <div class="card">
+                            <img src="<perch:blog type="image" label="Image" id="image" width="1280" height="768" crop="true" />" alt="Holiday Cottages in Robin Hoods Bay" loading="lazy">
+                            <div class="flow">
+                                <h2><perch:blog type="text" id="title" label="Title" /></h2>
+                                <p><perch:blog type="text" id="text" label="Text" chars="200" append="..." /></p>
+                                <p><a class="button" href="<perch:blog type="text" type="text" id="button_url" label="Button URL" />"><perch:blog type="text" id="button_text" label="Button Text" /></a>
+                            </div>
+                        </div>
+                    </perch:repeater>
+                </div>
+            </perch:block>
+        </perch:blocks>
     </div>
 </article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "<perch:blog id="postTitle" type="text" label="Title" required="true" size="xl autowidth" order="1" />",
+  "image": [
+    "https://baytownholidaycottages.co.uk<perch:blog id="image" type="image" width="1024" height="768" crop="true" label="Image" order="4" />"
+   ],
+  "datePublished": "<perch:blog id="postDateTime" type="date" label="Date" time="true" format="Y-m-d H:i:s" divider-before="Publishing" />",
+  "dateModified": "<perch:blog id="postDateTime" type="date" label="Date" time="true" format="Y-m-d H:i:s" divider-before="Publishing" />",
+  "author": [{
+      "@type": "Person",
+      "name": "Sian Jones",
+      "url": "https://baytownholidaycottages.co.uk/news"
+    },{
+      "@type": "Person",
+      "name": "Sam Asher",
+      "url": "https://baytownholidaycottages.co.uk/news"
+  }]
+}
+</script>
 
 <perch:blog id="excerpt" type="textarea" label="Excerpt" markdown="true" order="3" suppress="true" size="s" />
 <perch:blog id="image" type="image" width="50" height="50" crop="true" suppress="true" />

@@ -128,6 +128,16 @@
 	
 	  gtag('config', 'G-351R1CN4V6');
 	</script>
-
+	
+	<script>
+		document.querySelector('.property-search button').addEventListener('click', function () {
+			const form = this.nextElementSibling;
+			const isOpen = form.classList.toggle('is-open');
+			this.style.setProperty('--arrow', isOpen ? '"↑"' : '"↓"');
+			this.querySelector
+			// Simpler: just swap the button text
+			this.textContent = isOpen ? 'Hide Search' : 'Property Search';
+		});
+	</script>
 </body>
 </html>

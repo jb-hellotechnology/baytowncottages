@@ -2,17 +2,17 @@
 <h1 class="property-name"><perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" /></h1>
 <!-- <a class="button right" href="#book">Book Online Today!</a> -->
 <perch:if exists="discount">
-	<p class="discount-label"><perch:content id="discount" /></p>
+	<p class="discount-label"><perch:content id="discount" label="Discount Offer" /></p>
 </perch:if>
 <div class="row cottage-top">
 	<div class="cottage-gallery">
 		<div class="f-carousel" id="myCarousel">
 			<a class="f-carousel__slide" data-fancybox="gallery" href="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />">
-				<img data-lazy-src="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />" alt="Robin Hoods Bay Holiday Cottage" />
+				<img data-lazy-src="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />" alt="" />
 			</a>
 			<perch:repeater id="gallery">
 				<a class="f-carousel__slide" data-fancybox="gallery" href="<perch:content id="image2" type="image" label="Image 2" width="680" />">
-					<img src="<perch:content id="image2" type="image" label="Image 2" width="680" />" alt="Robin Hoods Bay Holiday Cottage" />
+					<img data-lazy-src="<perch:content id="image2" type="image" label="Image 2" width="680" />" alt="" />
 				</a>
 			</perch:repeater>
 		</div>
@@ -21,28 +21,37 @@
 		<h2>Key Information</h2>
 		<ul class="facilities">
 			<perch:if exists="cottageSleeps">
-				<li class="sleeps">Sleeps <perch:content id="cottageSleeps" type="select" label="Sleeps" options="2,2+1,3,3+1,4,4+1,4+2,4+3,5,5+1,6,6+1,6+2,7,7+1,8,8+1,9,9+1,10,10+1" required="true" /></li>
+				<li class="sleeps">Sleeps <perch:content id="cottageSleeps" type="select" label="Sleeps" options="2,2+1,3,3+1,4,4+1,4+2,4+3,5,5+1,6,6+1,6+2,7,7+1,8,8+1,9,9+1,10,10+1,10+2,11,12" required="true" /><perch:content id="sleeps_for_chat" type="select" label="Sleeps (for Chat Widget - total number)" options="1,2,3,4,5,6,7,8,9,10,11,12" required="true" suppress="true" /><perch:content id="bedrooms" type="text" label="Bedrooms" suppress="true" /><perch:content id="bathrooms" type="text" label="Bathrooms" suppress="true" /><perch:content id="wcs" type="text" label="WCs" suppress="true" /></li>
+			</perch:if>
+			<perch:if exists="bathrooms">
+				<li class="bathrooms"><perch:content id="bathrooms" type="text" label="Bathrooms" /> Bathrooms</li>
+			</perch:if>
+			<perch:if exists="wcs">
+				<li class="wcs"><perch:content id="wcs" type="text" label="WCs" /> WCs</li>
 			</perch:if>
 			<perch:if exists="cottageLocation">
-				<li class="location"><perch:content id="cottageLocation" type="select" label="Location" options="Lower Bay, Upper Bay, Fylingthorpe, Whitby Area" allowempty="false" required="true" /></li>
+				<li class="location"><perch:content id="cottageLocation" type="select" label="Location" options="Lower Robin Hood's Bay, Upper Robin Hood's Bay, Fylingthorpe, Whitby Area" allowempty="false" required="true" /></li>
 			</perch:if>
 			<perch:if exists="wifi">
 				<li class="wifi"><perch:content id="wifi" type="checkbox" label="WiFi" value="WiFi" /></li>
 			</perch:if>
 			<perch:if exists="petfriendly">
-				<li class="pets"><perch:content id="petfriendly" type="checkbox" label="Pet Friendly" value="Pet Friendly" /></li>
+				<li class="pets"><perch:content id="petfriendly" type="checkbox" label="Dogs Welcome" value="Dogs Welcome" /> <perch:if exists="petquantity">(<perch:content type="select" id="petquantity" label="How many dogs?" options="0,1,2,3" />)</perch:if></li>
 			</perch:if>
 			<perch:if exists="parkingpermit-fisherhead">
-				<li class="parking"><perch:content id="parkingpermit-fisherhead" type="checkbox" label="Parking Permit - Fisherhead Car Park" value="Parking Permit - Fisherhead Car Park" /></li>
+				<li class="parking"><perch:content id="parkingpermit" value="parkingpermit" type="checkbox" label="Parking - for search, tick for all cottages with parking" supress="true" /><perch:content id="parkingpermit-fisherhead" type="checkbox" label="Parking Permit - Fisherhead Car Park" value="Parking Permit - Fisherhead Car Park" /></li>
 			</perch:if>
 			<perch:if exists="parkingpermit-council">
 				<li class="parking"><perch:content id="parkingpermit-council" type="checkbox" label="Parking Permit - Council Car Parks in Top Village" value="Parking Permit - Council Car Parks in Top Village" /></li>
 			</perch:if>
 			<perch:if exists="parkingpermit-private">
-				<li class="parking"><perch:content id="parkingpermit-private" type="checkbox" label="Parking Permit - Private Parking" value="Parking Permit - Private Parking" /></li>
+				<li class="parking"><perch:content id="parkingpermit-private" type="checkbox" label="Private Parking" value="Private Parking" /></li>
 			</perch:if>
 			<perch:if exists="parking-onstreet">
 				<li class="parking"><perch:content id="parking-onstreet" type="checkbox" label="Parking - On Street Parking" value="Parking - On Street Parking" /></li>
+			</perch:if>
+			<perch:if exists="outside-space">
+				<li class="garden"><perch:content id="outside-space" type="select" label="Outside Space" options="No Outside Space,Open Patio,Enclosed Patio,Open Garden,Enclosed Garden,Outside Seating" /></li>
 			</perch:if>
 		</ul>
 		<h2>Book Online</h2>
@@ -72,8 +81,22 @@
 			<ul class="tab-control">
 				<li class="active"><a href="#about" title="about">About</a></li>
 				<li><a href="#amenities" title="amenities">Amenities</a></li>
-				<li><a href="#availability" title="availability">Availability</a></li>
-				<li><a href="#pricing" title="pricing">Pricing</a></li>
+				<li><a href="#availability" title="availability" <perch:if id="cottageName" value="Fernleigh - Robin Hood's Bay" match="eq">onclick="gtag('event', 'fernleigh_availability_click', {
+						'event_category': 'engagement',
+						'event_label': 'Pricing Tab'
+					});
+					gtag('event','conversion',{
+						'send_to':'AW-17833643096/_bI0CJTBzuYbENiY37dC'
+					});
+					return true;"</perch:if>>Availability</a></li>
+				<li><a href="#pricing" title="pricing" <perch:if id="cottageName" value="Fernleigh - Robin Hood's Bay" match="eq">onclick="gtag('event', 'fernleigh_pricing_click', {
+						'event_category': 'engagement',
+						'event_label': 'Availability Tab'
+					});
+					gtag('event','conversion',{
+						'send_to':'AW-17833643096/_bI0CJTBzuYbENiY37dC'
+					});
+					return true;"</perch:if>>Pricing</a></li>
 				<li class="enquiry"><a href="#enquiry" title="enquiry">Enquiry</a></li>
 				<perch:if id="displayLocation" value="hide">
 				
@@ -88,56 +111,6 @@
 			<div class="tab amenities flow">
 				<h3>Property Amenities</h3>
 				<div class="am-wrapper">
-				<!--<ul>
-					<perch:if exists="cottageLocation">
-						<li><perch:content id="cottageLocation" type="select" label="Location" options="Lower Robin Hood's Bay, Upper Robin Hood's Bay, Whitby Area" allowempty="false" required="true" /></li>
-					</perch:if>
-					<perch:if exists="wifi">
-						<li><perch:content id="wifi" type="checkbox" label="WiFi" value="WiFi" /></li>
-					</perch:if>
-					<perch:if exists="petfriendly">
-						<li><perch:content id="petfriendly" type="checkbox" label="Pet Friendly" value="Pet Friendly" /></li>
-					</perch:if>
-					<perch:if exists="centralheating">
-						<li><perch:content id="centralheating" type="checkbox" label="Central Heating" value="Central Heating" /></li>
-					</perch:if>
-					<perch:if exists="linenprovided">
-						<li><perch:content id="linenprovided" type="checkbox" label="Linen Provided" value="Linen Provided" /></li>
-					</perch:if>
-					<perch:if exists="tv">
-						<li><perch:content id="tv" type="checkbox" label="TV" value="TV" /></li>
-					</perch:if>
-					<perch:if exists="travelcot">
-						<li><perch:content id="travelcot" type="checkbox" label="Travel Cot Available" value="Travel Cot Available" /></li>
-					</perch:if>
-					<perch:if exists="highchair">
-						<li><perch:content id="highchair" type="checkbox" label="Highchair Available" value="Highchair Available" /></li>
-					</perch:if>
-					<perch:if exists="washingmachine">
-						<li><perch:content id="washingmachine" type="checkbox" label="Washing Machine" value="Washing Machine" /></li>
-					</perch:if>
-					<perch:if exists="woodburner">
-						<li><perch:content id="woodburner" type="checkbox" label="Woodburner" value="Woodburner" /></li>
-					</perch:if>
-					<perch:if exists="openfire">
-						<li><perch:content id="openfire" type="checkbox" label="Open Fire" value="Open Fire" /></li>
-					</perch:if>
-					<perch:if exists="outsidespace">
-						<li><perch:content id="outsidespace" type="checkbox" label="Outside Space" value="Outside Space" /></li>
-					</perch:if>
-					<perch:if exists="parkingpermit">
-						<li><perch:content id="parkingpermit" type="checkbox" label="Parking Permit" value="Parking Permit" /></li>
-					</perch:if>
-					<perch:if exists="parkingpermit-fisherhead">
-						<li><perch:content id="parkingpermit-fisherhead" type="checkbox" label="Parking Permit - Fisherhead Car Park" value="Parking Permit - Fisherhead Car Park" /></li>
-					</perch:if>
-					<perch:if exists="parkingpermit-council">
-						<li><perch:content id="parkingpermit-council" type="checkbox" label="Parking Permit - Council Car Parks in Top Village" value="Parking Permit - Council Car Parks in Top Village" /></li>
-					</perch:if>
-					<perch:if exists="parkingpermit-private">
-						<li><perch:content id="parkingpermit-private" type="checkbox" label="Parking Permit - Private Parking" value="Parking Permit - Private Parking" /></li>
-					</perch:if>
-				</ul> -->
 				<ul class="amenities">
 				<perch:repeater id="amenities" title="Amenities" label="Amenities">
 					<perch:if exists="type">
@@ -200,3 +173,121 @@
 <perch:content type="checkbox" id="hide" label="Hide" suppress="true" value="true" divider-before="Visibility" />
 
 <perch:content id="slug" type="slug" for="cottageName" suppress="true" />
+
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "VacationRental",
+	  "additionalType": "House",
+	  "@id": "https://baytownholidaycottages.co.uk/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" supress="true" />",
+	  "description": "<perch:content id="shortDescription" type="text" label="Short Description" divider-before="Structured Data" />",
+	  "brand": {
+		"@type": "Brand",
+		"name": "baytownholidaycottages"
+	  },
+	  "containsPlace": {
+		"@type": "Accommodation",
+		"additionalType": "EntirePlace",
+		"amenityFeature": [
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "Kitchen",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "Refrigerator",
+			  "value": true
+			},
+			{
+			 "@type": "LocationFeatureSpecification",
+			  "name": "Microwave",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "Oven",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "DiningArea",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "IroningBoard",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "Television",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "WiFi",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "Stereo",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "Heating",
+			  "value": true
+			},
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "SmokeDetector",
+			  "value": true
+			}<perch:if exists="petfriendly">,
+			{
+			  "@type": "LocationFeatureSpecification",
+			  "name": "PetsAllowed",
+			  "value": true
+			}</perch:if>
+		  ],
+		"occupancy": {
+		  "@type": "QuantitativeValue",
+		  "value": <perch:content id="sleeps" type="select" label="Sleeps" options="1,2,3,4,5,6,7,8,9,10,11,12" required="true" />
+		},
+		"numberOfBathroomsTotal": <perch:content id="bathrooms" type="text" label="Bathrooms" />,
+		"numberOfBedrooms": <perch:content id="bedrooms" type="text" label="Bedrooms" />
+	  },
+	  "url": "https://baytownholidaycottages.co.uk/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" supress="true" />",
+	  "telephone": "+44(0)7703 457229",
+	  "priceRange": "<perch:content id="priceRange" type="text" label="Price Per Night" help="Like: £250 - £350" /> per night",
+	  "currenciesAccepted": "GBP",
+	  "paymentAccepted": "Debit Card, Credit Card, Bank Transfer",
+	  "checkinTime": "16:00",
+	  "checkoutTime": "10:00",
+	  "identifier": "<perch:content id="slug" type="slug" for="cottageName" supress="true" />",
+	  "latitude": <perch:content id="latitude" type="text" label="Latitdude" />,
+	  "longitude": <perch:content id="longitude" type="text" label="Longitude" />,
+	  "address": {
+		"addressCountry": "GB",
+		"addressLocality": "Robin Hood's Bay",
+		"addressRegion": "North Yorkshire",
+		"postalCode": "<perch:content id="postcode" type="text" label="Post Code" />",
+		"streetAddress": "<perch:content id="streetAddress" type="text" label="Street Address" />"
+	  },
+	  "name": "<perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" />",
+	  "aggregateRating": {
+		"ratingValue": <perch:content id="averageReview" type="text" label="Average Review" />,
+		"ratingCount": <perch:content id="reviewCount" type="text" label="Number of Reviews" />,
+		"reviewCount": <perch:content id="reviewCount" type="text" />,
+		"bestRating": 5
+	  },
+	  "image": [
+		"https://baytownholidaycottages.co.uk<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />",<perch:repeater id="gallery">
+		"https://baytownholidaycottages.co.uk<perch:content id="image2" type="image" label="Image 2" width="680" />"<perch:if id="perch_item_last" value="false" />,</perch:if></perch:repeater>
+	  ],
+	  "knowsLanguage": ["en-GB"],
+	  "review": [
+		  <perch:content id="reviewsData" />
+	  ]
+	}
+	</script>

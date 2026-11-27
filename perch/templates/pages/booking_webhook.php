@@ -32,9 +32,15 @@ switch ($event->type) {
 	  $checkout = $event->data->object;
 	  $reference = $event->data->object->client_reference_id;
 	  $amount = $event->data->object->amount_total;
-	  $reference = simple_calendar_complete_booking($reference);
-	  record_payment($reference, $amount/100);
-	  send_confirmation($reference);
+	  if(strpos($reference, 'balance_') !== false){
+		$reference = str_replace("balance_", "", $reference);
+		record_balance_payment($reference, $amount/100);
+		send_balance_confirmation($reference); 
+	  }else{
+		$reference = simple_calendar_complete_booking($reference);
+		record_payment($reference, $amount/100);
+		send_confirmation($reference);
+	  }
 	break;
   case 'checkout.session.expired':
 	  $checkout = $event->data->object;

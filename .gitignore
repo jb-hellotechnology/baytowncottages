@@ -1,32 +1,24 @@
+# Ignore everything by default...
 *
 
-# Include .gitignore
-!.gitignore
+# ...then track only the folders we maintain.
+#
+# Git can't re-include a path inside an ignored directory, so each parent
+# directory is un-ignored first, then its contents.
 
-# Include cPanel GitHub config
+# Keep this file and the cPanel deployment config
+!.gitignore
 !.cpanel.yml
 
-# Include assets
-!assets
-!assets/**
+# Front-end assets
+!/assets
+!/assets/**
 
-# Include Perch
-
-# To include a subdirectory (perch/templates/) the parent directory needs 'unignoring'
-# first. The first line unignores the perch directory, then the next ignores everything within 
-# that directory. The third line then unignores the templates directory, and the following
-# unignores the contents of that directory.
-
-!perch
-perch/**
-
-!perch/templates/
-!perch/templates/**
-!perch/templates/pages
-!perch/template/pages/**
-!perch/addons/
-!perch/addons/**
-!perch/addons/apps/
-!perch/addons/apps/**
-!perch/addons/apps/simple_calendar/
-!perch/addons/apps/simple_calendar/**
+# Perch – only our addons (apps, templates, plugins, etc.) and page templates.
+# Everything else under /perch (core, config, resources, logs) stays untracked.
+!/perch
+/perch/**
+!/perch/addons
+!/perch/addons/**
+!/perch/templates
+!/perch/templates/**

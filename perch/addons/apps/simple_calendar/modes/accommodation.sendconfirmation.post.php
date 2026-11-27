@@ -24,9 +24,15 @@
 	]);
 	
 	$Smartbar->add_item([
-	    'active' => true,
-	    'title' => 'Send Confirmation',
-	    'link'  => '/addons/apps/simple_calendar/accommodation/booking/send_confirmation/?id='.$_GET['id'],
+		'active' => true,
+		'title' => 'Deposit Confirmation',
+		'link'  => '/addons/apps/simple_calendar/accommodation/booking/send_confirmation/?id='.$_GET['id'],
+	]);
+	
+	$Smartbar->add_item([
+		'active' => false,
+		'title' => 'Full Payment Confirmation',
+		'link'  => '/addons/apps/simple_calendar/accommodation/booking/full_confirmation/?id='.$_GET['id'],
 	]);
 	
 	$Smartbar->add_item([
@@ -59,7 +65,7 @@
 	    $customerData = $SimpleCalendar->customer($booking['customerID']);
 	    $unitData = $SimpleCalendar->unit($booking['unitID'],'');
 	    $memberDetails = json_decode($customerData['memberProperties'],true);
-	    $emailData = $SimpleCalendar->getEmail(1);
+	    $emailData = $SimpleCalendar->getEmail(5);
 	    
 	    $arrivalDates = explode(" ",$booking['startTime']);
 	    $arrivalDates = explode("-",$arrivalDates[0]);
@@ -78,9 +84,43 @@
 	    
 	    $diff = strtotime($departureDates[0]) - strtotime($arrivalDates[0]);
 		$nights = $diff/86400;
+		
+		$balance = $booking['cost'] - $booking['paid'];
 
-		$placeHolders = array("{{unitName}}","{{bookingID}}","{{memberName}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingPaid}}");
-		$emailContent = array($unitData['name'],"#".$booking['bookingID'],$memberDetails['first_name'],$arrivalFull,$departureFull,$nights,$booking['cost'],$booking['paid']);
+		// Create DateTime object from the input date
+		$date = new DateTime($arrivalDates[0]);
+		$date->modify('-6 weeks');
+		$balanceDue = $date->format('l jS \of F Y');
+		
+		$result = [
+			'adults' => null,
+			'children' => null,
+			'pets' => null
+		];
+		
+		// Extract Adults
+		if (preg_match('/Adults:\s*(\d+)/', $booking['notes'], $matches)) {
+			$result['adults'] = (int)$matches[1];
+		}
+		
+		// Extract Children
+		if (preg_match('/Children:\s*(\d+)/', $booking['notes'], $matches)) {
+			$result['children'] = (int)$matches[1];
+		}
+		
+		// Extract Pets - handles "Yes - 1", "No", "Yes", etc.
+		if (preg_match('/Pets:\s*Yes\s*-\s*(\d+)/i', $booking['notes'], $matches)) {
+			$result['pets'] = (int)$matches[1];
+		} elseif (preg_match('/Pets:\s*No/i', $booking['notes'])) {
+			$result['pets'] = 0;
+		} elseif (preg_match('/Pets:\s*Yes/i', $booking['notes'])) {
+			$result['pets'] = 1; // Assume 1 if just "Yes"
+		}
+		
+		$memberAddress = $memberDetails['address_1'].', '.$memberDetails['address_2'].', '.$memberDetails['address_3'].', '.$memberDetails['post_code'];
+		
+		$placeHolders = array("{{unitName}}","{{today}}","{{bookingID}}","{{memberName}}","{{memberAddress}}","{{memberTelephone}}","{{memberEmail}}","{{bookingAdults}}","{{bookingChildren}}","{{bookingPets}}","{{bookingArrival}}","{{bookingDeparture}}","{{bookingNights}}","{{bookingCost}}","{{bookingDeposit}}","{{paymentMethod}}","{{bookingBalance}}","{{balanceDue}}","{{propertyDetails}}","{{keySafe}}");
+		$emailContent = array($unitData['name'],date('d/m/Y'),"#".$booking['bookingID'],$memberDetails['first_name']." ".$memberDetails['last_name'],$memberAddress,$memberDetails['mobile'],$customerData['memberEmail'],$result['adults'],$result['children'],$result['pets'],$arrivalFull,$departureFull,$nights,$booking['cost'],$booking['paid'],'Card',$balance,$balanceDue,$unitData['carParking'],$unitData['keyCode']);
 
 		$subject = str_replace(
 		  $placeHolders,

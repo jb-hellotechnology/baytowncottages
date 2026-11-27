@@ -131,5 +131,16 @@ new Carousel(document.getElementById("myCarousel"), {
         Dots: false
       }, { Thumbs });
 </script>
+
+<script>
+	document.querySelector('.property-search button').addEventListener('click', function () {
+		const form = this.nextElementSibling;
+		const isOpen = form.classList.toggle('is-open');
+		this.style.setProperty('--arrow', isOpen ? '"↑"' : '"↓"');
+		this.querySelector
+		// Simpler: just swap the button text
+		this.textContent = isOpen ? 'Hide Search' : 'Property Search';
+	});
+</script>
 </body>
 </html>

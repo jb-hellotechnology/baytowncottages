@@ -17,15 +17,21 @@
 			<perch:if exists="cottageSleeps">
 				<li class="sleeps">Sleeps <perch:content id="cottageSleeps" type="text" label="Sleeps" required="true" /></li>
 			</perch:if>
+			<perch:if exists="bathrooms">
+				<li class="bathrooms"><perch:content id="bathrooms" type="text" label="Bathrooms" required="true" /> Bathrooms</li>
+			</perch:if>
+			<perch:if exists="wcs">
+				<li class="wcs"><perch:content id="wcs" type="text" label="WCs" required="true" /> WCs</li>
+			</perch:if>
 			<perch:if exists="cottageLocation">
 				<li class="location"><perch:content id="cottageLocation" type="select" label="Location" options="Lower Robin Hood's Bay, Upper Robin Hood's Bay, Whitby Area" allowempty="false" required="true" /></li>
 			</perch:if>
 			<perch:if exists="wifi">
 				<li class="wifi"><perch:content id="wifi" type="checkbox" label="WiFi" value="WiFi" /></li>
 			</perch:if>
-			<perch:if exists="parkingpermit">
+			<!-- <perch:if exists="parkingpermit">
 				<li class="parking">Parking</li>
-			</perch:if>
+			</perch:if> -->
 			<perch:if exists="parkingpermit-fisherhead">
 				<li class="parking">Parking</li>
 			</perch:if>
@@ -39,14 +45,17 @@
 				<li class="parking">Parking (On Street)</li>
 			</perch:if>
 			<perch:if exists="petfriendly">
-				<li class="pets">Pet Friendly</li>
+				<li class="pets">Dogs Welcome <perch:if exists="petquantity">(<perch:content id="petquantity" />)</perch:if></li>
+			</perch:if>
+			<perch:if exists="outside-space">
+				<li class="garden"><perch:content id="outside-space" type="select" label="Outside Space" options="No Outside Space,Open Patio,Enclosed Patio,Open Garden,Enclosed Garden,Outside Seating" /></li>
 			</perch:if>
 		</ul>
 	</div>
 </div>
 
 <perch:noresults>
-	<h3><em>Oh no! We don't have any cottages which match your options - please revise your filtering options, or call us on 01947 459097 to discuss your requirements.</em></h3>
+	<h3><em>Oh no! We don't have any cottages which match your options - please revise your filtering options, or call us on 07703 457229 to discuss your requirements.</em></h3>
 </perch:noresults>
 
 

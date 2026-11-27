@@ -4,7 +4,7 @@
 	$unit = strip_tags($_GET['unit']);
 	$year = strip_tags($_GET['year']);
 	$month = strip_tags($_GET['month']);
-	
+
 	simple_calendar_monthly_calendar($unit,$year,$month);
 		
 ?>

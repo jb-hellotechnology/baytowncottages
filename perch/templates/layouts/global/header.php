@@ -4,6 +4,16 @@
     $redirect = "/our-cottages/property?s=$_POST[return]";
     PerchSystem::redirect($redirect);
   }
+  
+$price       = strip_tags($_GET['price']       ?? '');
+$location    = strip_tags($_GET['location']    ?? '');
+$sleeps      = strip_tags($_GET['sleeps']      ?? '');
+$wifi        = strip_tags($_GET['wifi']        ?? '');
+$petfriendly = strip_tags($_GET['petfriendly'] ?? '');
+$dogs        = max(0, (int) ($_GET['dogs'] ?? 0));
+$parking     = strip_tags($_GET['parking']     ?? '');
+$arrival     = strip_tags($_GET['arrival']     ?? '');
+$nights      = (int) ($_GET['nights']          ?? 0);
 ?>
 <!doctype html>
 <html lang="en">
@@ -110,5 +120,74 @@
 			    ));
 		    ?>
 		    </nav>
+		</div>
+	</div>
+	
+	<div class="property-search">
+		<div class="restrict">
+			<button>Property Search</button>
+			<form method="get" action="/cottage-search">
+	
+				<div>
+					<label for="location">Location</label>
+					<select name="location">
+						<option value="">Any</option>
+						<option value="Lower Robin Hood's Bay" <?php if ($location === "Lower Robin Hood's Bay") echo 'selected'; ?>>Lower Bay</option>
+						<option value="Upper Robin Hood's Bay" <?php if ($location === "Upper Robin Hood's Bay") echo 'selected'; ?>>Upper Bay</option>
+						<option value="Fylingthorpe"           <?php if ($location === 'Fylingthorpe')          echo 'selected'; ?>>Fylingthorpe</option>
+					</select>
+				</div>
+	
+				<div>
+					<label for="arrival">Arrival Date</label>
+					<input type="date" name="arrival"
+						   min="<?php echo date('Y-m-d', strtotime('+2 days')); ?>"
+						   value="<?php echo $arrival; ?>">
+				</div>
+	
+				<div>
+					<label for="nights">Nights</label>
+					<select name="nights">
+						<?php foreach (range(2, 14) as $n): ?>
+							<option value="<?php echo $n; ?>" <?php if ($nights === $n) echo 'selected'; ?>>
+								<?php echo $n; ?>
+						<?php endforeach; ?>
+					</select>
+				</div>
+	
+				<div>
+					<label for="wifi">WiFi
+						<input type="checkbox" name="wifi" id="wifi" <?php if ($wifi === 'on') echo 'checked'; ?>>
+					</label>
+				</div>
+				<div>
+					<label for="dogs">Dogs</label>
+					<select name="dogs">
+						<option value="">No Dogs</option>
+						<?php foreach (range(1, 3) as $n): ?>
+							<option value="<?php echo $n; ?>" <?php if ($dogs === $n) echo 'selected'; ?>>
+								<?php echo $n; ?>
+						<?php endforeach; ?>
+					</select>
+				</div>
+				<div>
+					<label for="parking">Parking
+						<input type="checkbox" name="parking" id="parking" <?php if ($parking === 'on') echo 'checked'; ?>>
+					</label>
+				</div>
+	
+				<div>
+					<label for="sleeps">Sleeps</label>
+					<select name="sleeps">
+						<?php foreach (range(2, 12) as $n): ?>
+							<option value="<?php echo $n; ?>" <?php if ((string)$sleeps === (string)$n) echo 'selected'; ?>>
+								<?php echo $n; ?>
+						<?php endforeach; ?>
+					</select>
+				</div>
+	
+				<div><input type="submit" value="Search"></div>
+	
+			</form>
 		</div>
 	</div>

@@ -69,3 +69,14 @@
 	}
 
     echo $HTML->main_panel_end();
+
+?>
+<script>
+$R("textarea", { 
+  focus: true,
+  plugins: ['fontcolor'],
+	  fontcolors: [
+		  '#000', '#880000'
+	  ] 
+});
+</script>

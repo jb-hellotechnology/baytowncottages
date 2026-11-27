@@ -69,6 +69,15 @@ class Simple_Calendars extends PerchAPI_Factory
 	    $unit['maxPets'] = $data['maxPets'];
 	    $unit['freePets'] = $data['freePets'];
 	    $unit['singlePetCharge'] = $data['singlePetCharge'];
+		
+		$unit['ownerEmail'] = $data['ownerEmail'];
+		$unit['sendOwnerEmail'] = $data['sendOwnerEmail'];
+		
+		$unit['cleanerEmail'] = $data['cleanerEmail'];
+		$unit['sendCleanerEmail'] = $data['sendCleanerEmail'];
+		
+		$unit['keyCode'] = $data['keyCode'];
+		$unit['carParking'] = $data['carParking'];
 
 	    $insert = $this->db->update('simple_calendar_accommodation_units', $unit, 'unitID', $data['unitID']);
 	    
@@ -457,6 +466,15 @@ class Simple_Calendars extends PerchAPI_Factory
 	    return $data;
 	    
     }
+	
+	public function customerByEmail($email){
+		
+		$sql = 'SELECT * FROM perch3_members WHERE memberEmail="'.$email.'"';
+		$data = $this->db->get_row($sql);
+	
+		return $data;
+		
+	}
     
     public function createReview($review){
 	    
@@ -533,15 +551,32 @@ class Simple_Calendars extends PerchAPI_Factory
     
     public function getConflicts($arrival,$departure,$unitID){
 	  
-	    $sqlB = 'SELECT * FROM simple_calendar_accommodation_bookings WHERE 
+	    $sql = 'SELECT * FROM simple_calendar_accommodation_bookings WHERE 
 				(startTime<="'.$arrival.'" AND endTime>"'.$arrival.'" AND unitID="'.$unitID.'") OR 
 				(startTime<="'.$departure.'" AND endTime>"'.$departure.'" AND unitID="'.$unitID.'") OR 
 				(startTime<="'.$arrival.'" AND endTime>="'.$departure.'" AND unitID="'.$unitID.'") OR 
 				(startTime>="'.$arrival.'" AND endTime<="'.$departure.'" AND unitID="'.$unitID.'") OR 
 				(startTime="'.$arrival.'" AND endTime="'.$departure.'" AND unitID="'.$unitID.'")';  
-		$conflicts = $this->db->get_count($sqlB);
+		// $sql = 'SELECT COUNT(*) FROM simple_calendar_accommodation_bookings
+		// WHERE unitID = "' . $unitID . '"
+		//   AND DATE(startTime) <  "' . $departure . '"
+		//   AND DATE(endTime)   >  "' . $arrival   . '"';
+		$conflicts = $this->db->get_count($sql);
 		
 		return $conflicts;
+		
+		// Use DATE() to strip the time component from stored datetime values,
+		// allowing clean comparison against plain Y-m-d arrival/departure strings.
+		// Logic: overlap exists when booking starts before our departure
+		// AND ends after our arrival. Same-day changeover (endTime = arrival
+		// or startTime = departure) is NOT a conflict.
+		
+		// $sql = 'SELECT COUNT(*) FROM simple_calendar_accommodation_bookings
+		// 		WHERE unitID = "' . $unitID . '"
+		// 		  AND DATE(startTime) <  "' . $departure . '"
+		// 		  AND DATE(endTime)   >  "' . $arrival   . '"';
+		// 
+		// return $this->db->get_count($sql);
 		
     }
     
@@ -573,10 +608,10 @@ class Simple_Calendars extends PerchAPI_Factory
     $sql = 'SELECT * FROM simple_calendar_accommodation_units WHERE slug="'.$slug.'"';
 		$data = $this->db->get_rows($sql);
 
-	  $sql = 'SELECT * FROM simple_calendar_accommodation_unit_pricing WHERE startDate<="'.$date.'" AND endDate>="'.$date.'" AND unitID="'.$data[0]['unitID'].'" ORDER BY startDate ASC';
+	$sql = 'SELECT * FROM simple_calendar_accommodation_unit_pricing WHERE startDate<="'.$date.'" AND endDate>="'.$date.'" AND unitID="'.$data[0]['unitID'].'" ORDER BY startDate ASC';
 		$data = $this->db->get_rows($sql);
     
-    $today = date('Y-m-d');
+    $today = date('Y-m-d', strtotime('+2 days'));
     
     $dates = explode("-",$date);
     $day = date("D", mktime(0, 0, 0, $dates[1], $dates[2], $dates[0]));
@@ -592,13 +627,23 @@ class Simple_Calendars extends PerchAPI_Factory
       $nights = 14;
     }
 
-	  if($data[0]['changeOver']=='Any Day' AND $date>$today AND $nights>$data[0]['minStay']){
-      return 1;
-    }elseif($data[0]['changeOver']=='Sat - Sat' AND $day=='Sat' AND $date>$today AND $nights>$data[0]['minStay']){
+	if($data[0]['changeOver']=='Any Day' AND $date>$today AND $nights>$data[0]['minStay']){
       return 1;
     }elseif($data[0]['changeOver']=='Fri - Fri' AND $day=='Fri' AND $date>$today AND $nights>$data[0]['minStay']){
+	  return 1;
+	}elseif($data[0]['changeOver']=='Sat - Sat' AND $day=='Sat' AND $date>$today AND $nights>$data[0]['minStay']){
       return 1;
-    }elseif($data[0]['changeOver']=='Fri/Mon' AND ($day=='Fri' OR $day=='Mon') AND $date>$today AND $nights>$data[0]['minStay']){
+    }elseif($data[0]['changeOver']=='Sun - Sun' AND $day=='Sun' AND $date>$today AND $nights>$data[0]['minStay']){
+	  return 1;
+	}elseif($data[0]['changeOver']=='Mon - Mon' AND $day=='Mon' AND $date>$today AND $nights>$data[0]['minStay']){
+	  return 1;
+	}elseif($data[0]['changeOver']=='Tue - Tue' AND $day=='Tue' AND $date>$today AND $nights>$data[0]['minStay']){
+	  return 1;
+	}elseif($data[0]['changeOver']=='Wed - Wed' AND $day=='Wed' AND $date>$today AND $nights>$data[0]['minStay']){
+	  return 1;
+	}elseif($data[0]['changeOver']=='Thu - Thu' AND $day=='Thu' AND $date>$today AND $nights>$data[0]['minStay']){
+	  return 1;
+	}elseif($data[0]['changeOver']=='Fri/Mon' AND ($day=='Fri' OR $day=='Mon') AND $date>$today AND $nights>$data[0]['minStay']){
       return 1;
     }elseif($data[0]['changeOver']=='Sat/Tue' AND ($day=='Sat' OR $day=='Tue') AND $date>$today AND $nights>$data[0]['minStay']){
       return 1;
@@ -690,6 +735,11 @@ class Simple_Calendars extends PerchAPI_Factory
 	  $data = $this->db->execute($sql);
   }
   
+  public function recordBalancePayment($bookingID, $payment){
+		$sql = 'UPDATE simple_calendar_accommodation_bookings SET paid = paid + "'.$payment.'" WHERE bookingID='.$bookingID;
+		$data = $this->db->execute($sql);
+	}
+  
   public function getLastBooking(){
     $sql = 'SELECT * FROM simple_calendar_accommodation_bookings ORDER BY bookingID DESC LIMIT 1';
 	$data = $this->db->get_row($sql);
@@ -733,5 +783,218 @@ class Simple_Calendars extends PerchAPI_Factory
 	  
 	  return $data;
   }
+  
+  public function owner_bookings($email, $time){
+
+	  if($time == 'future'){
+		$date = date('Y-m-d');
+	    $sql = "SELECT b.*
+		FROM simple_calendar_accommodation_bookings b
+		INNER JOIN simple_calendar_accommodation_units u ON b.unitID = u.unitID
+		WHERE u.ownerEmail = '".$email."'
+		AND b.startTime>='".$date."'
+		ORDER BY b.startTime ASC;";
+	    $data = $this->db->get_rows($sql);
+	  }else{
+		$date = date('Y-m-d');
+		$sql = "SELECT b.*
+		FROM simple_calendar_accommodation_bookings b
+		INNER JOIN simple_calendar_accommodation_units u ON b.unitID = u.unitID
+		WHERE u.ownerEmail = '".$email."'
+		AND b.startTime<='".$date."'
+		ORDER BY b.startTime DESC;";
+		$data = $this->db->get_rows($sql);
+	  }
+	  return $data;
+	  
+  }
+  
+  public function cleaner_bookings($email, $time){
+		
+		if($time == 'future'){
+		  $date = date('Y-m-d');
+		  $sql = "SELECT b.*
+		  FROM simple_calendar_accommodation_bookings b
+		  INNER JOIN simple_calendar_accommodation_units u ON b.unitID = u.unitID
+		  WHERE u.cleanerEmail = '".$email."'
+		  AND b.startTime>='".$date."'
+		  ORDER BY b.startTime ASC LIMIT 20;";
+		  $data = $this->db->get_rows($sql);
+		}else{
+		  $date = date('Y-m-d');
+		  $sql = "SELECT b.*
+		  FROM simple_calendar_accommodation_bookings b
+		  INNER JOIN simple_calendar_accommodation_units u ON b.unitID = u.unitID
+		  WHERE u.cleanerEmail = '".$email."'
+		  AND b.startTime<='".$date."'
+		  ORDER BY b.startTime DESC;";
+		  $data = $this->db->get_rows($sql);
+		}
+		
+		return $data;
+		
+	}
+	
+	/**
+	 * Given a list of cottage slugs, return only those available
+	 * for the requested arrival date and number of nights.
+	 *
+	 * Checks three things per cottage:
+	 *  1. Booking conflicts (reuses existing getConflicts logic)
+	 *  2. Minimum stay requirement for the arrival date's pricing period
+	 *  3. Valid changeover day for the arrival date's pricing period
+	 *
+	 * @param array  $slugs    Cottage slugs from the Perch collection
+	 * @param string $arrival  Arrival date in Y-m-d format
+	 * @param int    $nights   Number of nights requested
+	 * @return array           Slugs of cottages that pass all checks
+	 */
+	
+	public function getAvailableSlugs(array $slugs, string $arrival, int $nights): array {
+	
+		$today     = date('Y-m-d');
+		$departure = date('Y-m-d', strtotime($arrival . ' +' . $nights . ' days'));
+		$arrDay    = date('D', strtotime($arrival));
+	
+		if ($arrival <= $today) {
+			return [];
+		}
+	
+		$available = [];
+	
+		foreach ($slugs as $slug) {
+
+			$unit = $this->unitSlug($slug);
+			if (!$unit) {
+				continue;
+			}
+			$unitID = $unit['unitID'];
+	
+			// --- Check 1: No booking conflicts ---
+			if ($this->getConflicts($arrival, $departure, $unitID) > 0) {
+				continue;
+			}
+	
+			// Short breaks (under a full week) are exempt from the
+			// minStay / changeover-day rules below. Those rules exist to
+			// govern full-week bookings only, so a 2-night stay should
+			// never be blocked by a minStay of 7.
+			if ($nights < 7) {
+				$available[] = $slug;
+				continue;
+			}
+	
+			// --- Check 2 & 3: Pricing period rules (minStay + changeOver) ---
+			// NOTE: this query is vulnerable to SQL injection via $unitID/$arrival
+			// if either can come from user input. If your $this->db wrapper
+			// supports prepared statements (e.g. $wpdb->prepare), use that here.
+			$sql = 'SELECT * FROM simple_calendar_accommodation_unit_pricing
+					WHERE unitID   = "' . $unitID . '"
+					  AND startDate <= "' . $arrival . '"
+					  AND endDate   >= "' . $arrival . '"
+					ORDER BY startDate ASC
+					LIMIT 1';
+			$pricing = $this->db->get_row($sql);
+	
+			if ($pricing) {
+	
+				$minStay    = (int) $pricing['minStay'];
+				$changeOver = $pricing['changeOver'];
+				$validArrival = false;
+				
+				if($slug=='fernleigh-robin-hoods-bay'){
+					echo $changeOver;
+				}
+	
+				switch ($changeOver) {
+	
+					case 'Any Day':
+						$validArrival = ($nights >= $minStay);
+						break;
+	
+					case 'Fri - Fri':
+						$validArrival = ($arrDay === 'Fri' && $nights >= $minStay && $nights % 7 === 0);
+						break;
+	
+					case 'Sat - Sat':
+						$validArrival = ($arrDay === 'Sat' && $nights >= $minStay && $nights % 7 === 0);
+						break;
+	
+					case 'Sun - Sun':
+						$validArrival = ($arrDay === 'Sun' && $nights >= $minStay && $nights % 7 === 0);
+						break;
+	
+					case 'Mon - Mon':
+						$validArrival = ($arrDay === 'Mon' && $nights >= $minStay && $nights % 7 === 0);
+						break;
+	
+					case 'Tue - Tue':
+						$validArrival = ($arrDay === 'Tue' && $nights >= $minStay && $nights % 7 === 0);
+						break;
+	
+					case 'Wed - Wed':
+						$validArrival = ($arrDay === 'Wed' && $nights >= $minStay && $nights % 7 === 0);
+						break;
+	
+					case 'Thu - Thu':
+						$validArrival = ($arrDay === 'Thu' && $nights >= $minStay && $nights % 7 === 0);
+						break;
+	
+					case 'Fri/Mon':
+						// Short-break clauses removed: nights < 7 already
+						// returned above, so only full-week multiples remain.
+						$validArrival = ($arrDay === 'Fri' && $nights % 7 === 0)
+									 || ($arrDay === 'Mon' && $nights % 7 === 0);
+						break;
+	
+					case 'Sat/Tue':
+						$validArrival = ($arrDay === 'Sat' && $nights % 7 === 0)
+									 || ($arrDay === 'Tue' && $nights % 7 === 0);
+						break;
+	
+					default:
+						$validArrival = true;
+						break;
+				}
+	
+				if (!$validArrival) {
+					continue;
+				}
+			}
+	
+			$available[] = $slug;
+		}
+	
+		return $available;
+	}
+	
+	function get_cottage_bookings($cottage){
+		
+		$sql = 'SELECT * FROM simple_calendar_accommodation_units WHERE slug="'.$cottage.'"';
+		$unitData = $this->db->get_row($sql);
+		
+		$sql = 'SELECT startTime, endTime
+		 FROM simple_calendar_accommodation_bookings
+		 WHERE unitID = '.$unitData['unitID'].'
+		 AND endTime >= NOW()
+		 ORDER BY startTime ASC';
+		 
+		$rows = $this->db->get_rows($sql);
+		
+		// Map to the format the iCal builder expects
+		$bookings = [];
+		if (is_array($rows)) {
+			foreach ($rows as $row) {
+				$bookings[] = [
+					'start' => date('Y-m-d', strtotime($row['startTime'])),
+					'end'   => date('Y-m-d', strtotime($row['endTime'])),
+					'label' => 'Booked',
+				];
+			}
+		}
+		
+		return $bookings;	
+		
+	}
     
 }
