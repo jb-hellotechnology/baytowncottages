@@ -89,12 +89,52 @@
 				$(this).parent().addClass('active');
 			});
 			
-			$('button.menu,button.close').click(function(){
-				$('nav').toggleClass('show');
-			});
-			
+			/* ---- Main menu: slide-in panel + collapsible sub-menus ---- */
+			(function(){
+				var $nav = $('.navigation nav');
+				if(!$nav.length) return;
+				var $backdrop = $('<div class="nav-backdrop"></div>').appendTo('.navigation');
+				var isMobile = function(){ return window.matchMedia('(max-width:1010px)').matches; };
+
+				// Add a chevron toggle + animation wrapper to every item with a sub-menu
+				$nav.find('li').each(function(){
+					var $li = $(this);
+					var $sub = $li.children('ul').first();
+					if(!$sub.length) return;
+					$li.addClass('has-sub');
+					var $parentLink = $li.children('a').first();
+					var $wrap = $('<div class="sub-wrap"></div>').insertBefore($sub).append($sub);
+					var $btn = $('<button class="sub-toggle" type="button" aria-expanded="false" aria-label="Toggle sub-menu"><span class="chev"></span></button>').insertBefore($wrap);
+
+					// Keep the parent's own page reachable from inside the sub-menu
+					var href = $parentLink.attr('href');
+					if(href){
+						$('<li class="parent-page"><a href="'+href+'">'+$.trim($parentLink.text())+' &ndash; overview</a></li>').prependTo($sub);
+					}
+
+					function toggle(e){
+						e.preventDefault();
+						var open = $li.toggleClass('open').hasClass('open');
+						$btn.attr('aria-expanded', open ? 'true' : 'false');
+					}
+					$btn.on('click', toggle);
+					// On mobile, tapping the parent name reveals the sub-menu instead of navigating
+					$parentLink.on('click', function(e){ if(isMobile()) toggle(e); });
+				});
+
+				function openMenu(){ $nav.addClass('show'); $backdrop.addClass('show'); $('body').addClass('nav-open'); }
+				function closeMenu(){ $nav.removeClass('show'); $backdrop.removeClass('show'); $('body').removeClass('nav-open'); }
+
+				$('.navigation button.menu').on('click', openMenu);
+				$('nav button.close').on('click', closeMenu);
+				$backdrop.on('click', closeMenu);
+				$(document).on('keyup', function(e){ if(e.key === 'Escape') closeMenu(); });
+			})();
+
 			$('.property-search button').click(function(){
-				$('.property-search form').toggleClass('show');
+				var $btn = $(this);
+				var isOpen = $btn.next('form').toggleClass('is-open').hasClass('is-open');
+				$btn.toggleClass('is-open', isOpen).text(isOpen ? 'Hide Search' : 'Property Search');
 			});
 			
 			$('ul.accordion li h3').click(function(){
