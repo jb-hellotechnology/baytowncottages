@@ -168,6 +168,8 @@
 
 <perch:content id="discount" type="text" label="Discount Offer" suppress="true" divider-before="Discounts" />
 
+<perch:content id="cottageCardText" type="text" label="Card Text" help="A single line of text shown on the cottage cards (home &amp; accommodation pages), below the main image." suppress="true" divider-before="Cottage Card" />
+
 <perch:content id="displayLocation" type="select" label="Show/Hide Location Box" options="show,hide" suppress="true" />
 
 <perch:content type="checkbox" id="hide" label="Hide" suppress="true" value="true" divider-before="Visibility" />
@@ -179,7 +181,7 @@
 	  "@context": "https://schema.org",
 	  "@type": "VacationRental",
 	  "additionalType": "House",
-	  "@id": "https://baytownholidaycottages.co.uk/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" supress="true" />",
+	  "@id": "https://baytownholidaycottages.co.uk/our-cottages/property/<perch:content id="slug" type="slug" for="cottageName" supress="true" />",
 	  "description": "<perch:content id="shortDescription" type="text" label="Short Description" divider-before="Structured Data" />",
 	  "brand": {
 		"@type": "Brand",
@@ -257,7 +259,7 @@
 		"numberOfBathroomsTotal": <perch:content id="bathrooms" type="text" label="Bathrooms" />,
 		"numberOfBedrooms": <perch:content id="bedrooms" type="text" label="Bedrooms" />
 	  },
-	  "url": "https://baytownholidaycottages.co.uk/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" supress="true" />",
+	  "url": "https://baytownholidaycottages.co.uk/our-cottages/property/<perch:content id="slug" type="slug" for="cottageName" supress="true" />",
 	  "telephone": "+44(0)7703 457229",
 	  "priceRange": "<perch:content id="priceRange" type="text" label="Price Per Night" help="Like: £250 - £350" /> per night",
 	  "currenciesAccepted": "GBP",

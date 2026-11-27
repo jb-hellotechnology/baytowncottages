@@ -1,7 +1,7 @@
 <?php
   session_start();
   if($_POST['return']){
-    $redirect = "/our-cottages/property?s=$_POST[return]";
+    $redirect = "/our-cottages/property/$_POST[return]";
     PerchSystem::redirect($redirect);
   }
 ?>

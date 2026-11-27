@@ -1,17 +1,31 @@
-<?php	
+<?php
+
+	// Resolve the cottage slug from the URL path ( /our-cottages/property/{slug} ).
+	// Falls back to perch_get('s') for the legacy query-string / route-token form.
+	// May already be set when this template is included from cottages.php.
+	if(empty($cottageSlug)){
+		$cottageSlug = '';
+		if(preg_match('{^/our-cottages/property/([^/?]+)}', strtok($_SERVER['REQUEST_URI'], '?'), $slugMatch)){
+			$cottageSlug = $slugMatch[1];
+		}
+		if($cottageSlug === ''){
+			$cottageSlug = perch_get('s');
+		}
+	}
 
 	$item = perch_collection('Cottages', [
 	   'filter' => 'slug',
-	   'value' => perch_get('s'),
+	   'value' => $cottageSlug,
 	   'match' => 'eq',
 	   'skip-template' => true,
 	]);
-	$item_title = $item[0]['cottageName'].' - Sleeps '.$item[0]['cottageSleeps'].' in '.$item[0]['cottageLocation']; 
+	$item_title = $item[0]['cottageName'].' - Sleeps '.$item[0]['cottageSleeps'].' in '.$item[0]['cottageLocation'];
 
 	perch_layout('global/header', [
 	   'page_title' => perch_page_title(true),
 	   'item_title' => $item_title,
 	   'item_description' => strip_tags($item[0]['cottageShortDescription']),
+	   'canonical' => 'https://'.$_SERVER['HTTP_HOST'].'/our-cottages/property/'.$cottageSlug,
 	]);
 ?>
 <main>
@@ -23,19 +37,19 @@
 			    PerchSystem::set_var('loggedin', 'no');
 		    }
 			
-			$reviewData = unitReviewData(perch_get('s'),$item[0]['cottageName'],$item[0]);
+			$reviewData = unitReviewData($cottageSlug,$item[0]['cottageName'],$item[0]);
 			
 			PerchSystem::set_var('reviewsData', $reviewData);
 		   
 		    perch_collection('Cottages', [
 			    "filter"   => "slug",
 		        "match"    => "eq",
-		        "value"    => perch_get('s'),
+		        "value"    => $cottageSlug,
 		    ]);
 			
 			$item_title = $item[0]['cottageName'].' - Sleeps '.$item[0]['cottageSleeps'].' in '.$item[0]['cottageLocation']; 
 			echo '<div class="row">';
-			unitReviews(perch_get('s'),$item[0]['cottageName'],$item[0]);
+			unitReviews($cottageSlug,$item[0]['cottageName'],$item[0]);
 			echo '</div>';
 		?>
 	</div>

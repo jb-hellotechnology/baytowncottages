@@ -1,7 +1,7 @@
 <?php
   session_start();
   if($_POST['return']){
-    $redirect = "/our-cottages/property?s=$_POST[return]";
+    $redirect = "/our-cottages/property/$_POST[return]";
     PerchSystem::redirect($redirect);
   }
   
@@ -45,7 +45,11 @@ $nights      = (int) ($_GET['nights']          ?? 0);
 			'template' => 'seo.html'
 		));
 	?>
-	
+
+	<?php if(perch_layout_has('canonical')){ ?>
+	<link rel="canonical" href="<?php echo perch_layout_var('canonical', true); ?>">
+	<?php } ?>
+
 	<meta name="p:domain_verify" content="fde999de96c60450c381e1d20fa8185a">
 	<meta property="og:type" content="article">
     <meta property="og:title" content="<?php if(perch_layout_has('item_title')){echo perch_layout_var('item_title', true);}else{perch_pages_title();}?>">

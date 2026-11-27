@@ -3,9 +3,9 @@
 </perch:before>
 <div class="cottage">
 	<div class="title">
-			<h2><a href="/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" />"><perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" /></a></h2>
+			<h2><a href="/our-cottages/property/<perch:content id="slug" type="slug" for="cottageName" />"><perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" /></a></h2>
 	</div>
-	<a href="/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" />" class="cottage-link">
+	<a href="/our-cottages/property/<perch:content id="slug" type="slug" for="cottageName" />" class="cottage-link">
 		<img src="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />" alt="<perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" />" />
 		<perch:if exists="discount">
 			<p class="discount"><perch:content id="discount" /></p>
@@ -13,6 +13,9 @@
 	</a>
 <!-- 	<p class="price">&pound;<perch:content id="minPrice"/> - &pound;<perch:content id="maxPrice"/></p> -->
 	<div class="text">
+		<perch:if exists="cottageCardText">
+			<p class="cottage-intro"><perch:content id="cottageCardText" type="text" /></p>
+		</perch:if>
 		<ul class="facilities">
 			<perch:if exists="cottageSleeps">
 				<li class="sleeps">Sleeps <perch:content id="cottageSleeps" type="text" label="Sleeps" required="true" /></li>

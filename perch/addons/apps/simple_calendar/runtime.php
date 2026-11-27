@@ -354,7 +354,7 @@
     
 		echo "<table class='cal-table'>
             <tr>
-              <td colspan='7' class='larger'><a href=\"/our-cottages/property?s=$unit\">$name</a></td>
+              <td colspan='7' class='larger'><a href=\"/our-cottages/property/$unit\">$name</a></td>
             </tr>
 		        <tr class='cal-month'>
 		            <td colspan='7'>
@@ -457,7 +457,7 @@
 				
 			echo "$tabs<tr><td colspan='7'>Sleeps $unitData[maxOccupants]"; if($unitData['maxPets']>0){ echo " &bull; Pet Friendly";} echo "</td></tr>
 			<tr>
-			  <td colspan='7' class='larger'><a class=\"button more-details\" href=\"/our-cottages/property?s=$unit\">More Details</a></td>
+			  <td colspan='7' class='larger'><a class=\"button more-details\" href=\"/our-cottages/property/$unit\">More Details</a></td>
 			</tr></table>";
 			
 		echo '<script type="text/javascript">
@@ -1196,7 +1196,7 @@ function owner_bookings($email){
 			$ends = explode(" ", $booking['endTime']);
 			$ends = explode("-",$ends[0]);
 			$end = "$ends[2]/$ends[1]/$ends[0]";
-			echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
+			echo "<tr><td><a href='/our-cottages/property/".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -1211,7 +1211,7 @@ function owner_bookings($email){
 	// 		$ends = explode(" ", $booking['endTime']);
 	// 		$ends = explode("-",$ends[0]);
 	// 		$end = "$ends[2]/$ends[1]/$ends[0]";
-	// 		echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
+	// 		echo "<tr><td><a href='/our-cottages/property/".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
 	// 	}
 	// 	echo "</table>";
 	// }
@@ -1234,7 +1234,7 @@ function cleaner_bookings($email){
 			$ends = explode(" ", $booking['endTime']);
 			$ends = explode("-",$ends[0]);
 			$end = "$ends[2]/$ends[1]/$ends[0]";
-			echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
+			echo "<tr><td><a href='/our-cottages/property/".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -1249,7 +1249,7 @@ function cleaner_bookings($email){
 	// 		$ends = explode(" ", $booking['endTime']);
 	// 		$ends = explode("-",$ends[0]);
 	// 		$end = "$ends[2]/$ends[1]/$ends[0]";
-	// 		echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
+	// 		echo "<tr><td><a href='/our-cottages/property/".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td></tr>";
 	// 	}
 	// 	echo "</table>";
 	// }
@@ -1273,7 +1273,7 @@ function member_bookings($id){
 			$ends = explode("-",$ends[0]);
 			$end = "$ends[2]/$ends[1]/$ends[0]";
 			$balance = $booking['cost'] - $booking['paid'];
-			echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td><td>&pound;".$booking['cost']."</td><td>";
+			echo "<tr><td><a href='/our-cottages/property/".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td><td>&pound;".$booking['cost']."</td><td>";
 			if($balance > 0){
 				$stripeBalance = $balance*100;
 				$name = "Balance payment for ".$unit['name'].", ".$start." - ".$end;
@@ -1304,7 +1304,7 @@ function member_bookings($id){
 			$end = "$ends[2]/$ends[1]/$ends[0]";
 			$balance = $booking['cost'] - $booking['paid'];
 			if($unit['name']){
-				echo "<tr><td><a href='/our-cottages/property?s=".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td><td>&pound;".$booking['cost']."</td><td>";
+				echo "<tr><td><a href='/our-cottages/property/".$unit['slug']."'>".$unit['name']."</a></td><td>".$start."</td><td>".$end."</td><td>&pound;".$booking['cost']."</td><td>";
 				if($balance > 0){
 					$stripeBalance = $balance*100;
 					$name = "Balance payment for ".$unit['name'].", ".$start." - ".$end;

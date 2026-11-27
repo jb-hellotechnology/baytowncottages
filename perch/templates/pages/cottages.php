@@ -1,4 +1,25 @@
-<?php	
+<?php
+	// A single cottage URL ( /our-cottages/property/{slug} ) now routes to this page.
+	// If the path points at a real cottage, render the single-cottage view
+	// (templates/pages/cottage.php) instead of the accommodation listing.
+	$cottageSlug = '';
+	if(preg_match('{^/our-cottages/property/([^/?]+)}', strtok($_SERVER['REQUEST_URI'], '?'), $slugMatch)){
+		$cottageSlug = $slugMatch[1];
+	}
+	if($cottageSlug !== ''){
+		$cottageCheck = perch_collection('Cottages', [
+			'filter'        => 'slug',
+			'match'         => 'eq',
+			'value'         => $cottageSlug,
+			'skip-template' => true,
+			'count'         => 1,
+		]);
+		if(!empty($cottageCheck)){
+			include(__DIR__.'/cottage.php');
+			return;
+		}
+	}
+
 	perch_layout('global/header');
 ?>
 <main>

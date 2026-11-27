@@ -4,7 +4,7 @@
 				<perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" /><br />
 				<span>from <perch:content id="arrival" /></span></h2>
 	</section>
-	<a href="/our-cottages/property?s=<perch:content id="slug" type="slug" for="cottageName" />" target="_blank">
+	<a href="/our-cottages/property/<perch:content id="slug" type="slug" for="cottageName" />" target="_blank">
 		<img src="<perch:content id="mainImage" type="image" label="Main Image" width="680" height="510" crop="true" />" alt="<perch:content id="cottageName" type="text" label="Cottage Name" required="true" title="true" />" />
 	</a>
 	<section class="text">

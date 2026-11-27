@@ -697,6 +697,13 @@ nav li{
 	position: relative;
 }
 
+/* Hide raw sub-menus until the JS wraps them in .sub-wrap. This stops a flash of
+   fully-expanded sub-menus on load. Once JS runs, the <ul> is nested inside
+   .sub-wrap (no longer a direct child of the <li>), so this rule stops matching. */
+nav > ul > li > ul{
+	display:none;
+}
+
 nav a{
 	color:#fff;
 	padding:0.9rem 0.6rem;
@@ -1445,6 +1452,15 @@ h1.center{
 	padding:0 1rem 1rem;
 	float:left;
 	width:100%;
+}
+
+.cottages-grid .cottage .cottage-intro{
+	background:var(--color-teal);
+	color:#fff;
+	margin:-1rem -1rem 1rem;
+	padding:.75rem 1rem;
+	font-size:var(--size-step-0);
+	line-height:1.4;
 }
 
 .cottages-grid .cottage .text ul{

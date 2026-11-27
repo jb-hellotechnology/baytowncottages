@@ -82,7 +82,7 @@
 								${features.map(f => `<li>${f}</li>`).join('')}
 							</ul>
 							<a class="popup-btn"
-							   href="https://baytownholidaycottages.co.uk/our-cottages/property?s=${cottage.slug}">
+							   href="https://baytownholidaycottages.co.uk/our-cottages/property/${cottage.slug}">
 								View property &rarr;
 							</a>
 						</div>`;
