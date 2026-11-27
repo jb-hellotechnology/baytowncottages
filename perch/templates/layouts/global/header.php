@@ -100,10 +100,6 @@ $nights      = (int) ($_GET['nights']          ?? 0);
 				<p>Get in Touch:</p>
 				<ul>	
 					<li class="larger">07703 457229</li>
-					<li class="inline"><a href="http://instagram.com/baytownholidaycottages" target="_blank"><i class="fa fa-instagram fa-3x"></i><span>Follow us on Instagram</span></a></li>
-					<li class="inline"><a href="https://www.facebook.com/baytownholidaycottages" target="_blank"><i class="fa fa-facebook-official fa-3x"></i><span>Follow us on Facebook</span></a></li>
-					<li class="inline"><a href="http://x.com/baytowncottages" target="_blank"><i class="fa-brands fa-x-twitter fa-3x"></i><span>Follow us on Twitter</span></a></li>
-					<li class="inline"><a href="https://www.pinterest.co.uk/baytownholidaycottages/" target="_blank"><i class="fa fa-pinterest fa-3x"></i><span>Follow us on Pinterest</span></a></li>
 				</ul>
 			</div>
 		</div>
